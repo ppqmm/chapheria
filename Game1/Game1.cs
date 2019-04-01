@@ -57,7 +57,7 @@ namespace Game1
             base.Initialize();
 
             cam = new Camera(graphics.GraphicsDevice);
-
+            //cam.Position = new Vector2(-graphics.PreferredBackBufferWidth/2, -graphics.PreferredBackBufferHeight/2);
             //เส้นบน
             for (int i = 0; i < 62; i++)
             {
@@ -227,6 +227,7 @@ namespace Game1
 
                 cam.Update(gameTime);
 
+
                 if (time == 0) endScreen = true;
 
                 //------------------------------ walk ------------------------//
@@ -297,13 +298,26 @@ namespace Game1
 
                 }
 
-                cam.Position = charPosition;
+                    cam.Position = charPosition;
+
+                //var screenPosition = charPosition;
+                //cam.ToScreen(ref charPosition, out screenPosition);
+                //
+                //Console.WriteLine(screenPosition);
+                //Console.WriteLine(graphics.PreferredBackBufferWidth);
+                //
+                //if (screenPosition.X > graphics.PreferredBackBufferWidth2x *0.8f)
+                //{
+                //
+                //    cam.Position = charPosition;
+                //}
+
+
+                //Console.WriteLine(cam.Position);
                 // TODO: Add your update logic here
             }
             base.Update(gameTime);
-
-            Console.WriteLine("test);
-
+            
         }
 
 
