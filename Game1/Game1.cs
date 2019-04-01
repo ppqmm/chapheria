@@ -301,6 +301,9 @@ namespace Game1
                 // TODO: Add your update logic here
             }
             base.Update(gameTime);
+
+            Console.WriteLine("test);
+
         }
 
 
