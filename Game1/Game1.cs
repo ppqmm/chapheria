@@ -57,9 +57,11 @@ namespace Game1
             base.Initialize();
 
             cam = new Camera(graphics.GraphicsDevice);
-            //cam.Position = new Vector2(-graphics.PreferredBackBufferWidth/2, -graphics.PreferredBackBufferHeight/2);
+            cam.Position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
             //เส้นบน
             //------------------------------------------- grassblocg --------------------------//
+
+            #region
 
             for (int i = 0; i < 62; i++)
             {
@@ -304,7 +306,7 @@ namespace Game1
             {
                 for (int j = 0; j < 17; j++)
                 {
-                   grassList.Add(new Vector2(260 + (26 * i), 400 + (20 * j)));
+                    grassList.Add(new Vector2(260 + (26 * i), 400 + (20 * j)));
                 }
 
             }
@@ -435,7 +437,7 @@ namespace Game1
             {
                 for (int j = 0; j < 19; j++)
                 {
-                   grassList.Add(new Vector2(1144 + (26 * i), 0 + (20 * j)));
+                    grassList.Add(new Vector2(1144 + (26 * i), 0 + (20 * j)));
                 }
 
             }
@@ -472,7 +474,7 @@ namespace Game1
             {
                 for (int j = 0; j < 11; j++)
                 {
-                   grassList.Add(new Vector2(1404 + (26 * i), 540 + (20 * j)));
+                    grassList.Add(new Vector2(1404 + (26 * i), 540 + (20 * j)));
                 }
 
             }
@@ -493,12 +495,12 @@ namespace Game1
             {
                 for (int j = 0; j < 36; j++)
                 {
-                   grassList.Add(new Vector2(1585 + (26 * i), 520 + (20 * j)));
+                    grassList.Add(new Vector2(1585 + (26 * i), 520 + (20 * j)));
                 }
 
             }
 
-
+            #endregion
 
         }
 
@@ -566,32 +568,29 @@ namespace Game1
 
                 if (keyboard.IsKeyDown(Keys.Left))
                 {
-                        charPosition.X = charPosition.X - 2;
-                        circleSprite = 78 * 2;
-                        UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    charPosition.X = charPosition.X - 2;
+                    circleSprite = 78 * 2;
                 }
 
                 if (keyboard.IsKeyDown(Keys.Right))
                 {
-                        charPosition.X = charPosition.X + 2;
-                        circleSprite = 78 * 3;
-                        UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    charPosition.X = charPosition.X + 2;
+                    circleSprite = 78 * 3;
                 }
 
                 if (keyboard.IsKeyDown(Keys.Up))
                 {
-                        charPosition.Y = charPosition.Y - 2;
-                        circleSprite = 78;
-                        UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    charPosition.Y = charPosition.Y - 2;
+                    circleSprite = 78;
                 }
 
                 if (keyboard.IsKeyDown(Keys.Down))
                 {
-                        charPosition.Y = charPosition.Y + 2;
-                        circleSprite = 0;
-                        UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+                    charPosition.Y = charPosition.Y + 2;
+                    circleSprite = 0;
                 }
 
+                UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
 
                 for (int i = 0; i < grassList.Count; i++)
                 {
@@ -616,26 +615,72 @@ namespace Game1
 
                 }
 
-                    cam.Position = charPosition;
+                //cam.Position = charPosition;
 
-                //var screenPosition = charPosition;
-                //cam.ToScreen(ref charPosition, out screenPosition);
-                //
-                //Console.WriteLine(screenPosition);
-                //Console.WriteLine(graphics.PreferredBackBufferWidth);
-                //
-                //if (screenPosition.X > graphics.PreferredBackBufferWidth2x *0.8f)
-                //{
-                //
-                //    cam.Position = charPosition;
-                //}
+                var screenPosition = Vector2.Zero;
+                var worldPosition = Vector2.Zero;
+                var offset = new Vector2(graphics.PreferredBackBufferWidth * 0.5f, graphics.PreferredBackBufferHeight * 0.5f);
+
+                cam.ToScreen(ref charPosition, out screenPosition);
+
+                if (screenPosition.X < -graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
+                {
+                    var scr2world = Vector2.Zero;
+                    cam.ToWorld(ref screenPosition, out scr2world);
+
+                    var resultPosition = new Vector2(scr2world.X - -graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
+
+                    if (resultPosition.X - offset.X > 0)
+                    {
+                        cam.Position = resultPosition;
+                    }
+                }
+
+                if (screenPosition.Y < -graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
+                {
+                    var scr2world = Vector2.Zero;
+                    cam.ToWorld(ref screenPosition, out scr2world);
+
+                    var resultPosition = new Vector2(cam.Position.X, scr2world.Y - -graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
+
+                    if (resultPosition.Y - offset.Y > 0)
+                    {
+                        cam.Position = resultPosition;
+                    }
+                }
+
+                if (screenPosition.X > graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
+                {
+                    var scr2world = Vector2.Zero;
+                    cam.ToWorld(ref screenPosition, out scr2world);
+
+                    var resultPosition = new Vector2(scr2world.X - graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
+
+                    if (resultPosition.X + offset.X <= 1612)
+                    {
+                        cam.Position = resultPosition;
+                    }
+                }
+
+                if (screenPosition.Y > graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
+                {
+                    var scr2world = Vector2.Zero;
+                    cam.ToWorld(ref screenPosition, out scr2world);
+
+                    var resultPosition = new Vector2(cam.Position.X, scr2world.Y - graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
+
+                    if (resultPosition.Y + offset.Y <= 1000)
+                    {
+                        cam.Position = resultPosition;
+                    }
+                }
 
 
                 //Console.WriteLine(cam.Position);
                 // TODO: Add your update logic here
             }
             base.Update(gameTime);
-            
+
         }
 
 
