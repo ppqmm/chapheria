@@ -18,7 +18,7 @@ namespace Game1
         Texture2D clock;
         Texture2D charTexture;
         Texture2D glassBlock;
-        Vector2 charPosition = new Vector2(50, 40);
+        Vector2 charPosition = new Vector2(40, 1005);
         Vector2 grassBlockPos = new Vector2(100, 250);
         //Vector2 old_position = Vector2.Zero;
 
@@ -669,7 +669,7 @@ namespace Game1
 
                     var resultPosition = new Vector2(cam.Position.X, scr2world.Y - graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
 
-                    if (resultPosition.Y + offset.Y <= 1000)
+                    if (resultPosition.Y + offset.Y <= 1200)
                     {
                         cam.Position = resultPosition;
                     }
@@ -736,9 +736,9 @@ namespace Game1
                  }*/
 
 
-                //spriteBatch.Draw(clock, new Vector2(5, 5), Color.White);
+                spriteBatch.Draw(clock, new Vector2(5, 5), Color.White);
 
-                //  spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
+                spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
 
                 spriteBatch.Draw(charTexture, charPosition, new Rectangle(frame * 64, circleSprite, 64, 78), Color.White);
             }
