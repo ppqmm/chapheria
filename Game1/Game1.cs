@@ -56,6 +56,8 @@ namespace Game1
 
             base.Initialize();
 
+            //----------------------- camera -------------------------------------//
+
             cam = new Camera(graphics.GraphicsDevice);
             cam.Position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
             //เส้นบน
@@ -538,6 +540,7 @@ namespace Game1
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
             KeyboardState keyboard = Keyboard.GetState();
             MouseState mouse = Mouse.GetState();
 
@@ -558,35 +561,36 @@ namespace Game1
                 timecounter += (int)time;
 
                 //-------------------- camera ---------------------------//
-                cam.Update(gameTime);
+                //cam.Update(gameTime);
 
 
                 if (time == 0) endScreen = true;
+                cam.Update(gameTime);
 
                 //------------------------------ walk ------------------------//
                 GraphicsDevice device = graphics.GraphicsDevice;
 
                 if (keyboard.IsKeyDown(Keys.Left))
                 {
-                    charPosition.X = charPosition.X - 2;
+                    charPosition.X = charPosition.X - 6;
                     circleSprite = 78 * 2;
                 }
 
                 if (keyboard.IsKeyDown(Keys.Right))
                 {
-                    charPosition.X = charPosition.X + 2;
+                    charPosition.X = charPosition.X + 6;
                     circleSprite = 78 * 3;
                 }
 
                 if (keyboard.IsKeyDown(Keys.Up))
                 {
-                    charPosition.Y = charPosition.Y - 2;
+                    charPosition.Y = charPosition.Y - 6;
                     circleSprite = 78;
                 }
 
                 if (keyboard.IsKeyDown(Keys.Down))
                 {
-                    charPosition.Y = charPosition.Y + 2;
+                    charPosition.Y = charPosition.Y + 6;
                     circleSprite = 0;
                 }
 
@@ -616,6 +620,7 @@ namespace Game1
                 }
 
                 //cam.Position = charPosition;
+                //------------------------- camera -------------------------------------//
 
                 var screenPosition = Vector2.Zero;
                 var worldPosition = Vector2.Zero;
@@ -701,6 +706,8 @@ namespace Game1
             }
             spriteBatch.End();
 
+           
+
             // TODO: Add your drawing code here
             spriteBatch.Begin(cam);
 
@@ -736,15 +743,25 @@ namespace Game1
                  }*/
 
 
-                spriteBatch.Draw(clock, new Vector2(5, 5), Color.White);
+                //spriteBatch.Draw(clock, new Vector2(5, 5), Color.White);
 
-                spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
+                //spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
 
                 spriteBatch.Draw(charTexture, charPosition, new Rectangle(frame * 64, circleSprite, 64, 78), Color.White);
             }
 
 
 
+            spriteBatch.End();
+
+            spriteBatch.Begin();
+            if(startScreen == false && endScreen == false)
+            {
+                spriteBatch.Draw(clock, new Vector2(5, 5), Color.White);
+
+                spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
+            }
+            
             spriteBatch.End();
 
             base.Draw(gameTime);
