@@ -18,7 +18,7 @@ namespace Game1
         Texture2D clock;
         Texture2D charTexture;
         Texture2D glassBlock;
-        Vector2 charPosition = new Vector2(50, 50);
+        Vector2 charPosition = new Vector2(50, 40);
         Vector2 grassBlockPos = new Vector2(100, 250);
         //Vector2 old_position = Vector2.Zero;
 
@@ -59,11 +59,185 @@ namespace Game1
             cam = new Camera(graphics.GraphicsDevice);
             //cam.Position = new Vector2(-graphics.PreferredBackBufferWidth/2, -graphics.PreferredBackBufferHeight/2);
             //เส้นบน
+            //------------------------------------------- grassblocg --------------------------//
+
             for (int i = 0; i < 62; i++)
             {
                 for (int j = 0; j < 1; j++)
                 {
                     grassList.Add(new Vector2(26 * i, 20 * j));
+                }
+
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(26 * i, 120 + (20 * j)));
+                }
+
+            }
+
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(936 + (26 * i), 160 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(132 + (26 * i), 260 + (20 * j)));
+                }
+
+            }
+
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(1144 + (26 * i), 260 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(1404 + (26 * i), 260 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(650 + (26 * i), 280 + (24 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(884 + (26 * i), 300 + (20 * j)));
+                }
+
+            }
+
+
+            for (int i = 0; i < 15; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(390 + (26 * i), 380 + (20 * j)));
+                }
+
+            }
+
+
+
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(26 * i, 380 + (20 * j)));
+                }
+
+            }
+
+
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(702 + (26 * i), 520 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 17; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(1170 + (26 * i), 520 + (20 * j)));
+                }
+
+            }
+
+
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(390 + (26 * i), 620 + (20 * j)));
+                }
+
+            }
+
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(26 * i, 680 + (20 * j)));
+                }
+
+            }
+
+
+            for (int i = 0; i < 13; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(130 + (26 * i), 860 + (20 * j)));
+                }
+
+            }
+
+
+            for (int i = 0; i < 26; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(780 + (26 * i), 880 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 15; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(468 + (26 * i), 1020 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(1014 + (26 * i), 1040 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 13; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    grassList.Add(new Vector2(1274 + (26 * i), 1020 + (20 * j)));
                 }
 
             }
@@ -77,32 +251,8 @@ namespace Game1
 
             }
 
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(132 + (26 * i), 260 + (20 * j)));
-                }
 
-            }
 
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(26 * i, 130 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(26 * i, 364 + (20 * j)));
-                }
-
-            }
 
             //เส้นข้าง
             for (int i = 0; i < 1; i++)
@@ -125,48 +275,229 @@ namespace Game1
 
             for (int i = 0; i < 1; i++)
             {
+                for (int j = 0; j < 8; j++)
+                {
+                    grassList.Add(new Vector2(130 + (26 * i), 380 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 31; j++)
+                {
+                    grassList.Add(new Vector2(130 + (26 * i), 800 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    grassList.Add(new Vector2(260 + (26 * i), 1000 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 17; j++)
+                {
+                   grassList.Add(new Vector2(260 + (26 * i), 400 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 14; j++)
+                {
+                    grassList.Add(new Vector2(260 + (26 * i), 20 * j));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 35; j++)
+                {
+                    grassList.Add(new Vector2(390 + (26 * i), 20 * j));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    grassList.Add(new Vector2(468 + (26 * i), 860 + (20 * j)));
+                }
+
+            }
+
+
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 14; j++)
+                {
+                    grassList.Add(new Vector2(520 + (26 * i), 20 * j));
+                }
+
+            }
+
+
+            for (int i = 0; i < 1; i++)
+            {
                 for (int j = 0; j < 7; j++)
                 {
-                    grassList.Add(new Vector2(130 + (26 * i), 364 + (20 * j)));
+                    grassList.Add(new Vector2(546 + (26 * i), 500 + (20 * j)));
                 }
 
             }
 
             for (int i = 0; i < 1; i++)
             {
-                for (int j = 0; j < 15; j++)
+                for (int j = 0; j < 9; j++)
                 {
-                    grassList.Add(new Vector2(234 + (26 * i), 364 + (20 * j)));
+                    grassList.Add(new Vector2(598 + (26 * i), 860 + (20 * j)));
                 }
 
             }
 
             for (int i = 0; i < 1; i++)
             {
-                for (int j = 0; j < 14; j++)
+                for (int j = 0; j < 7; j++)
                 {
-                    grassList.Add(new Vector2(234 + (26 * i), 20 * j));
+                    grassList.Add(new Vector2(650 + (26 * i), 20 * j));
                 }
 
             }
 
             for (int i = 0; i < 1; i++)
             {
-                for (int j = 0; j < 14; j++)
+                for (int j = 0; j < 10; j++)
                 {
-                    grassList.Add(new Vector2(442 + (26 * i), 20 * j));
+                    grassList.Add(new Vector2(754 + (26 * i), 200 + (20 * j)));
                 }
 
             }
 
             for (int i = 0; i < 1; i++)
             {
-                for (int j = 0; j < 30; j++)
+                for (int j = 0; j < 11; j++)
                 {
-                    grassList.Add(new Vector2(338 + (26 * i), 20 * j));
+                    grassList.Add(new Vector2(754 + (26 * i), 680 + (20 * j)));
                 }
 
             }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 19; j++)
+                {
+                    grassList.Add(new Vector2(884 + (26 * i), 520 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    grassList.Add(new Vector2(988 + (26 * i), 1020 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 24; j++)
+                {
+                    grassList.Add(new Vector2(1014 + (26 * i), 160 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    grassList.Add(new Vector2(1014 + (26 * i), 760 + (20 * j)));
+                }
+
+            }
+
+
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 19; j++)
+                {
+                   grassList.Add(new Vector2(1144 + (26 * i), 0 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    grassList.Add(new Vector2(1170 + (26 * i), 760 + (20 * j)));
+                }
+
+            }
+
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    grassList.Add(new Vector2(1404 + (26 * i), 1040 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 13; j++)
+                {
+                    grassList.Add(new Vector2(1404 + (26 * i), 160 + (20 * j)));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 11; j++)
+                {
+                   grassList.Add(new Vector2(1404 + (26 * i), 540 + (20 * j)));
+                }
+
+            }
+
+
+
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 19; j++)
+                {
+                    grassList.Add(new Vector2(1585 + (26 * i), 20 * j));
+                }
+
+            }
+
+            for (int i = 0; i < 1; i++)
+            {
+                for (int j = 0; j < 36; j++)
+                {
+                   grassList.Add(new Vector2(1585 + (26 * i), 520 + (20 * j)));
+                }
+
+            }
+
 
 
         }
@@ -224,7 +555,7 @@ namespace Game1
                 time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
                 timecounter += (int)time;
 
-
+                //-------------------- camera ---------------------------//
                 cam.Update(gameTime);
 
 
@@ -235,43 +566,30 @@ namespace Game1
 
                 if (keyboard.IsKeyDown(Keys.Left))
                 {
-                    if (charPosition.X > 0)
-                    {
                         charPosition.X = charPosition.X - 2;
                         circleSprite = 78 * 2;
                         UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
-                    }
-
                 }
+
                 if (keyboard.IsKeyDown(Keys.Right))
                 {
-                    if (charPosition.X < 740)
-                    {
                         charPosition.X = charPosition.X + 2;
                         circleSprite = 78 * 3;
                         UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
-                    }
-
                 }
+
                 if (keyboard.IsKeyDown(Keys.Up))
                 {
-                    if (charPosition.Y > 0)
-                    {
                         charPosition.Y = charPosition.Y - 2;
                         circleSprite = 78;
                         UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
-                    }
-
                 }
+
                 if (keyboard.IsKeyDown(Keys.Down))
                 {
-                    if (charPosition.Y < 540)
-                    {
                         charPosition.Y = charPosition.Y + 2;
                         circleSprite = 0;
                         UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
-                    }
-
                 }
 
 
@@ -346,7 +664,14 @@ namespace Game1
 
             if (startScreen == false && endScreen == false)
             {
-                spriteBatch.Draw(bg1, new Vector2(0, 0), Color.White);
+                for (int i = 0; i < 2; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        spriteBatch.Draw(bg1, new Vector2(800 * i, 600 * j), Color.White);
+                    }
+
+                }
 
                 for (int i = 0; i < grassList.Count; i++)
                 {
