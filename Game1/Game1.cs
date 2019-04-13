@@ -10,25 +10,46 @@ namespace Game1
 
     public class Game1 : Game
     {
+
+        public enum State
+        {
+            menu,
+            tutorial,
+            pre,
+            play,
+            end
+        };
+
+        State gamestate;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         Texture2D start, end;
-        Texture2D bg1, bg2, bg3, b4;
+
+        public static Texture2D bg1, bg2, bg3, b4;
+        public static Texture2D glassBlock;
+
         Texture2D clock;
         Texture2D charTexture;
-        Texture2D glassBlock;
-        Vector2 charPosition = new Vector2(40, 1005);
-        Vector2 grassBlockPos = new Vector2(100, 250);
+        Texture2D ui;
+        Texture2D light;
+        Texture2D bgHelp;
+        Texture2D board;
+        Texture2D button;
+        Texture2D state1_1;
+        Texture2D state1_2;
+        Texture2D state1_3;
+
+
+        Vector2 charPosition = new Vector2(0, 0);
         //Vector2 old_position = Vector2.Zero;
 
         SpriteFont font;
         Rectangle screen;
 
-        List<Vector2> grassList = new List<Vector2>();
 
-        float time = 180;
-        int timecounter;
+        float time = 0;
 
         bool startScreen = true, endScreen = false;
         bool grassBlockHit;
@@ -39,6 +60,22 @@ namespace Game1
         int framePerSec;
 
         Camera cam;
+
+        //------------------------ collision mouse click ----------------------//
+
+        Rectangle playRect = new Rectangle(0, 180, 250, 140);
+        Rectangle tutorialRect = new Rectangle(0, 310, 250, 85);
+        Rectangle exitRect = new Rectangle(0, 385, 250, 110);
+        Rectangle backtomenu = new Rectangle(0, 450, 160, 130);
+
+        bool isPlayClicked = false;
+        bool isTutorialClicked = false;
+        bool isExitClicked = false;
+        bool isBackClicked = false;
+
+
+        Stage currentStage;
+
 
         public Game1()
         {
@@ -55,454 +92,15 @@ namespace Game1
             // TODO: Add your initialization logic here
 
             base.Initialize();
-
+            this.IsMouseVisible = true;
             //----------------------- camera -------------------------------------//
 
             cam = new Camera(graphics.GraphicsDevice);
             cam.Position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
             //เส้นบน
-            //------------------------------------------- grassblocg --------------------------//
+            //--------------------------- grassblocg --------------------------//
 
-            #region
-
-            for (int i = 0; i < 62; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(26 * i, 20 * j));
-                }
-
-            }
-
-            for (int i = 0; i < 6; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(26 * i, 120 + (20 * j)));
-                }
-
-            }
-
-
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(936 + (26 * i), 160 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(132 + (26 * i), 260 + (20 * j)));
-                }
-
-            }
-
-
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(1144 + (26 * i), 260 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(1404 + (26 * i), 260 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(650 + (26 * i), 280 + (24 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(884 + (26 * i), 300 + (20 * j)));
-                }
-
-            }
-
-
-            for (int i = 0; i < 15; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(390 + (26 * i), 380 + (20 * j)));
-                }
-
-            }
-
-
-
-            for (int i = 0; i < 6; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(26 * i, 380 + (20 * j)));
-                }
-
-            }
-
-
-            for (int i = 0; i < 7; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(702 + (26 * i), 520 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 17; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(1170 + (26 * i), 520 + (20 * j)));
-                }
-
-            }
-
-
-            for (int i = 0; i < 7; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(390 + (26 * i), 620 + (20 * j)));
-                }
-
-            }
-
-
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(26 * i, 680 + (20 * j)));
-                }
-
-            }
-
-
-            for (int i = 0; i < 13; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(130 + (26 * i), 860 + (20 * j)));
-                }
-
-            }
-
-
-            for (int i = 0; i < 26; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(780 + (26 * i), 880 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 15; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(468 + (26 * i), 1020 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(1014 + (26 * i), 1040 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 13; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(1274 + (26 * i), 1020 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 62; i++)
-            {
-                for (int j = 0; j < 1; j++)
-                {
-                    grassList.Add(new Vector2(26 * i, 1180 + (20 * j)));
-                }
-
-            }
-
-
-
-
-            //เส้นข้าง
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 49; j++)
-                {
-                    grassList.Add(new Vector2(26 * i, 20 * j));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 5; j++)
-                {
-                    grassList.Add(new Vector2(26 * i, 1100 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    grassList.Add(new Vector2(130 + (26 * i), 380 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 31; j++)
-                {
-                    grassList.Add(new Vector2(130 + (26 * i), 800 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    grassList.Add(new Vector2(260 + (26 * i), 1000 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 17; j++)
-                {
-                    grassList.Add(new Vector2(260 + (26 * i), 400 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 14; j++)
-                {
-                    grassList.Add(new Vector2(260 + (26 * i), 20 * j));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 35; j++)
-                {
-                    grassList.Add(new Vector2(390 + (26 * i), 20 * j));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    grassList.Add(new Vector2(468 + (26 * i), 860 + (20 * j)));
-                }
-
-            }
-
-
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 14; j++)
-                {
-                    grassList.Add(new Vector2(520 + (26 * i), 20 * j));
-                }
-
-            }
-
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-                    grassList.Add(new Vector2(546 + (26 * i), 500 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    grassList.Add(new Vector2(598 + (26 * i), 860 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-                    grassList.Add(new Vector2(650 + (26 * i), 20 * j));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    grassList.Add(new Vector2(754 + (26 * i), 200 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 11; j++)
-                {
-                    grassList.Add(new Vector2(754 + (26 * i), 680 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 19; j++)
-                {
-                    grassList.Add(new Vector2(884 + (26 * i), 520 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    grassList.Add(new Vector2(988 + (26 * i), 1020 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 24; j++)
-                {
-                    grassList.Add(new Vector2(1014 + (26 * i), 160 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-                    grassList.Add(new Vector2(1014 + (26 * i), 760 + (20 * j)));
-                }
-
-            }
-
-
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 19; j++)
-                {
-                    grassList.Add(new Vector2(1144 + (26 * i), 0 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 12; j++)
-                {
-                    grassList.Add(new Vector2(1170 + (26 * i), 760 + (20 * j)));
-                }
-
-            }
-
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    grassList.Add(new Vector2(1404 + (26 * i), 1040 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 13; j++)
-                {
-                    grassList.Add(new Vector2(1404 + (26 * i), 160 + (20 * j)));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 11; j++)
-                {
-                    grassList.Add(new Vector2(1404 + (26 * i), 540 + (20 * j)));
-                }
-
-            }
-
-
-
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 19; j++)
-                {
-                    grassList.Add(new Vector2(1585 + (26 * i), 20 * j));
-                }
-
-            }
-
-            for (int i = 0; i < 1; i++)
-            {
-                for (int j = 0; j < 36; j++)
-                {
-                    grassList.Add(new Vector2(1585 + (26 * i), 520 + (20 * j)));
-                }
-
-            }
-
-            #endregion
+            gamestate = State.menu;
 
         }
 
@@ -516,8 +114,16 @@ namespace Game1
             charTexture = Content.Load<Texture2D>("splite");
             glassBlock = Content.Load<Texture2D>("glassBlock");
             clock = Content.Load<Texture2D>("clock");
-            start = Content.Load<Texture2D>("cover2");
+            start = Content.Load<Texture2D>("bgMenu");
             end = Content.Load<Texture2D>("end");
+            ui = Content.Load<Texture2D>("menu2");
+            light = Content.Load<Texture2D>("light2");
+            bgHelp = Content.Load<Texture2D>("bghelp");
+            board = Content.Load<Texture2D>("board");
+            button = Content.Load<Texture2D>("button");
+            state1_1 = Content.Load<Texture2D>("font1");
+            state1_2 = Content.Load<Texture2D>("font2");
+            state1_3 = Content.Load<Texture2D>("font3");
 
             framePerSec = 4;
             timePerFrame = (float)1 / framePerSec;
@@ -544,146 +150,245 @@ namespace Game1
             KeyboardState keyboard = Keyboard.GetState();
             MouseState mouse = Mouse.GetState();
 
+            cam.Update(gameTime);
 
-            if (startScreen == true)
+            //---------------------------------- menu ---------------------------------//
+            Rectangle mouseRect = new Rectangle(mouse.X, mouse.Y, 1, 1);
+            switch (gamestate)
             {
-                if (mouse.LeftButton == ButtonState.Pressed)
-                {
-                    startScreen = false;
-                }
+                case State.menu:
+
+                    //---------------------- mouse ui click ------------------------//
+
+                    if (mouseRect.Intersects(playRect) == true)
+                    {
+                        isPlayClicked = true;
+
+                        if (mouse.LeftButton == ButtonState.Pressed)
+                        {
+                            newStage(1);
+                        }
+                    }
+                    else
+                    {
+                        isPlayClicked = false;
+                    }
+
+                    if (mouseRect.Intersects(tutorialRect) == true)
+                    {
+                        isTutorialClicked = true;
+                        if (mouse.LeftButton == ButtonState.Pressed)
+                        {
+                            gamestate = State.tutorial;
+                        }
+                    }
+                    else
+                    {
+                        isTutorialClicked = false;
+                    }
+                    if (mouseRect.Intersects(exitRect) == true)
+                    {
+                        isExitClicked = true;
+                        if (mouse.LeftButton == ButtonState.Pressed)
+                        {
+                            Exit();
+                        }
+                    }
+                    else
+                    {
+                        isExitClicked = false;
+                    }
+                    break;
+
+                case State.tutorial:
+                    if (mouseRect.Intersects(backtomenu) == true)
+                    {
+
+                        if (mouse.LeftButton == ButtonState.Released && isBackClicked == true)
+                        {
+                            gamestate = State.menu;
+                        }
+
+                        if (mouse.LeftButton == ButtonState.Pressed)
+                        {
+                            isBackClicked = true;
+                        }
+                        else
+                        {
+                            isBackClicked = false;
+                        }
+                    }
+                    break;
+                case State.pre:
+
+                    time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
+
+                    if (time <= 0)
+                    {
+                        time = 45;
+                        gamestate = State.play;
+                    }
+
+                    break;
+                case State.play:
+
+                    Vector2 old_position = charPosition;
+
+                    currentStage.Update(gameTime);
+
+                    time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
+
+                    if(time <= 0)
+                    {
+                        time = 3;
+                        gamestate = State.end;
+
+                    }
+                    
+
+                    //-------------------- camera ---------------------------//
+                    //cam.Update(gameTime);
+
+
+                    if (time == 0) endScreen = true;
+
+                    //------------------------------ walk ------------------------//
+                    GraphicsDevice device = graphics.GraphicsDevice;
+
+                    if (keyboard.IsKeyDown(Keys.Left))
+                    {
+                        charPosition.X = charPosition.X - 6;
+                        circleSprite = 78 * 2;
+                    }
+
+                    if (keyboard.IsKeyDown(Keys.Right))
+                    {
+                        charPosition.X = charPosition.X + 6;
+                        circleSprite = 78 * 3;
+                    }
+
+                    if (keyboard.IsKeyDown(Keys.Up))
+                    {
+                        charPosition.Y = charPosition.Y - 6;
+                        circleSprite = 78;
+                    }
+
+                    if (keyboard.IsKeyDown(Keys.Down))
+                    {
+                        charPosition.Y = charPosition.Y + 6;
+                        circleSprite = 0;
+                    }
+
+                    UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+                    for (int i = 0; i < currentStage.grassList.Count; i++)
+                    {
+                        //---------------------- collision -----------------------//
+                        Rectangle charRectangle = new Rectangle((int)charPosition.X, (int)charPosition.Y, 64, 78);
+                        Rectangle glassBlockRectangle = new Rectangle((int)currentStage.grassList[i].X, (int)currentStage.grassList[i].Y, 26, 15);
+
+                        if (charRectangle.Intersects(glassBlockRectangle) == true)
+                        {
+                            grassBlockHit = true;
+                        }
+                        else if (charRectangle.Intersects(glassBlockRectangle) == false)
+                        {
+                            grassBlockHit = false;
+                        }
+
+
+                        if (grassBlockHit == true)
+                        {
+                            charPosition = old_position;
+                        }
+
+                    }
+
+                    for (int i = 0; i < currentStage.exitList.Count; i++)
+                    {
+                        //---------------------- collision -----------------------//
+                        Rectangle charRectangle = new Rectangle((int)charPosition.X, (int)charPosition.Y, 64, 78);
+                        Rectangle exitBlockRectangle = new Rectangle((int)currentStage.exitList[i].X, (int)currentStage.exitList[i].Y, 26, 15);
+
+                        if (charRectangle.Intersects(exitBlockRectangle) == true)
+                        {
+                            newStage(currentStage.stageNumber + 1);
+                        }
+                    }
+                    //cam.Position = charPosition;
+                    //------------------------- camera -------------------------------------//
+
+                    var screenPosition = Vector2.Zero;
+                    var worldPosition = Vector2.Zero;
+                    var offset = new Vector2(graphics.PreferredBackBufferWidth * 0.5f, graphics.PreferredBackBufferHeight * 0.5f);
+
+                    cam.ToScreen(ref charPosition, out screenPosition);
+
+                    if (screenPosition.X < -graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
+                    {
+                        var scr2world = Vector2.Zero;
+                        cam.ToWorld(ref screenPosition, out scr2world);
+
+                        var resultPosition = new Vector2(scr2world.X - -graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
+
+                        if (resultPosition.X - offset.X > 0)
+                        {
+                            cam.Position = resultPosition;
+                        }
+                    }
+
+                    if (screenPosition.Y < -graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
+                    {
+                        var scr2world = Vector2.Zero;
+                        cam.ToWorld(ref screenPosition, out scr2world);
+
+                        var resultPosition = new Vector2(cam.Position.X, scr2world.Y - -graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
+
+                        if (resultPosition.Y - offset.Y > 0)
+                        {
+                            cam.Position = resultPosition;
+                        }
+                    }
+
+                    if (screenPosition.X > graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
+                    {
+                        var scr2world = Vector2.Zero;
+                        cam.ToWorld(ref screenPosition, out scr2world);
+
+                        var resultPosition = new Vector2(scr2world.X - graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
+
+                        if (resultPosition.X + offset.X <= currentStage.block.GetLength(1) * 26) 
+                        {
+                            cam.Position = resultPosition;
+                        }
+                    }
+
+                    if (screenPosition.Y > graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
+                    {
+                        var scr2world = Vector2.Zero;
+                        cam.ToWorld(ref screenPosition, out scr2world);
+
+                        var resultPosition = new Vector2(cam.Position.X, scr2world.Y - graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
+
+                        if (resultPosition.Y + offset.Y <= currentStage.block.GetLength(0) * 20 + 50)
+                        {
+                            cam.Position = resultPosition;
+                        }
+                    }
+
+
+                    break;
+
+                case State.end:
+                    time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
+                    if(time <= 0)
+                    {
+                        gamestate = State.menu;
+                    }
+                    break;
+
             }
 
-            Vector2 old_position = charPosition;
-
-            if (startScreen == false && endScreen == false)
-            {
-                time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
-                timecounter += (int)time;
-
-                //-------------------- camera ---------------------------//
-                //cam.Update(gameTime);
-
-
-                if (time == 0) endScreen = true;
-                cam.Update(gameTime);
-
-                //------------------------------ walk ------------------------//
-                GraphicsDevice device = graphics.GraphicsDevice;
-
-                if (keyboard.IsKeyDown(Keys.Left))
-                {
-                    charPosition.X = charPosition.X - 6;
-                    circleSprite = 78 * 2;
-                }
-
-                if (keyboard.IsKeyDown(Keys.Right))
-                {
-                    charPosition.X = charPosition.X + 6;
-                    circleSprite = 78 * 3;
-                }
-
-                if (keyboard.IsKeyDown(Keys.Up))
-                {
-                    charPosition.Y = charPosition.Y - 6;
-                    circleSprite = 78;
-                }
-
-                if (keyboard.IsKeyDown(Keys.Down))
-                {
-                    charPosition.Y = charPosition.Y + 6;
-                    circleSprite = 0;
-                }
-
-                UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
-
-                for (int i = 0; i < grassList.Count; i++)
-                {
-                    //---------------------- collision -----------------------//
-                    Rectangle charRectangle = new Rectangle((int)charPosition.X, (int)charPosition.Y, 64, 78);
-                    Rectangle glassBlockRectangle = new Rectangle((int)grassList[i].X, (int)grassList[i].Y, 26, 15);
-
-                    if (charRectangle.Intersects(glassBlockRectangle) == true)
-                    {
-                        grassBlockHit = true;
-                    }
-                    else if (charRectangle.Intersects(glassBlockRectangle) == false)
-                    {
-                        grassBlockHit = false;
-                    }
-
-
-                    if (grassBlockHit == true)
-                    {
-                        charPosition = old_position;
-                    }
-
-                }
-
-                //cam.Position = charPosition;
-                //------------------------- camera -------------------------------------//
-
-                var screenPosition = Vector2.Zero;
-                var worldPosition = Vector2.Zero;
-                var offset = new Vector2(graphics.PreferredBackBufferWidth * 0.5f, graphics.PreferredBackBufferHeight * 0.5f);
-
-                cam.ToScreen(ref charPosition, out screenPosition);
-
-                if (screenPosition.X < -graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
-                {
-                    var scr2world = Vector2.Zero;
-                    cam.ToWorld(ref screenPosition, out scr2world);
-
-                    var resultPosition = new Vector2(scr2world.X - -graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
-
-                    if (resultPosition.X - offset.X > 0)
-                    {
-                        cam.Position = resultPosition;
-                    }
-                }
-
-                if (screenPosition.Y < -graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
-                {
-                    var scr2world = Vector2.Zero;
-                    cam.ToWorld(ref screenPosition, out scr2world);
-
-                    var resultPosition = new Vector2(cam.Position.X, scr2world.Y - -graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
-
-                    if (resultPosition.Y - offset.Y > 0)
-                    {
-                        cam.Position = resultPosition;
-                    }
-                }
-
-                if (screenPosition.X > graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
-                {
-                    var scr2world = Vector2.Zero;
-                    cam.ToWorld(ref screenPosition, out scr2world);
-
-                    var resultPosition = new Vector2(scr2world.X - graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
-
-                    if (resultPosition.X + offset.X <= 1612)
-                    {
-                        cam.Position = resultPosition;
-                    }
-                }
-
-                if (screenPosition.Y > graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
-                {
-                    var scr2world = Vector2.Zero;
-                    cam.ToWorld(ref screenPosition, out scr2world);
-
-                    var resultPosition = new Vector2(cam.Position.X, scr2world.Y - graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
-
-                    if (resultPosition.Y + offset.Y <= 1200)
-                    {
-                        cam.Position = resultPosition;
-                    }
-                }
-
-
-                //Console.WriteLine(cam.Position);
-                // TODO: Add your update logic here
-            }
             base.Update(gameTime);
 
         }
@@ -693,79 +398,157 @@ namespace Game1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            //------------------------------- draw game --------------------------------//
 
-            if (startScreen == true)
+            switch (gamestate)
             {
-                spriteBatch.Draw(start, screen, Color.White);
-            }
+                case State.menu:
 
-            if (endScreen == true)
-            {
-                spriteBatch.Draw(end, screen, Color.White);
-            }
-            spriteBatch.End();
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(start, screen, Color.White);
 
-           
-
-            // TODO: Add your drawing code here
-            spriteBatch.Begin(cam);
-
-
-
-
-            if (startScreen == false && endScreen == false)
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    for (int j = 0; j < 2; j++)
+                    //-------------------------------- draw ui click -----------------------------//
+                    if (isPlayClicked == true)
                     {
-                        spriteBatch.Draw(bg1, new Vector2(800 * i, 600 * j), Color.White);
+                        spriteBatch.Draw(ui, playRect, new Rectangle(270, 0, 250, 140), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(ui, playRect, new Rectangle(0, 0, 250, 140), Color.White);
                     }
 
-                }
+                    if (isTutorialClicked == true)
+                    {
+                        spriteBatch.Draw(ui, tutorialRect, new Rectangle(270, 200, 250, 85), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(ui, tutorialRect, new Rectangle(0, 200, 250, 85), Color.White);
+                    }
 
-                for (int i = 0; i < grassList.Count; i++)
-                {
-                    spriteBatch.Draw(glassBlock, grassList[i], Color.White);
-                }
+                    if (isExitClicked == true)
+                    {
+                        spriteBatch.Draw(ui, exitRect, new Rectangle(270, 350, 250, 110), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(ui, exitRect, new Rectangle(0, 350, 250, 110), Color.White);
+                    }
 
-                // spriteBatch.Draw(glassBlock, grassBlockPos, new Rectangle(0, 0, 26, 45), Color.White);
+                    spriteBatch.End();
+                    break;
 
+                case State.tutorial:
+                    //------------------------ draw help ---------------------------//
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(bgHelp, new Vector2(0, 0), Color.White);
+                    spriteBatch.Draw(board, new Vector2(0, 0), Color.White);
+                    spriteBatch.Draw(button, new Rectangle(280, 80, 300, 150), new Rectangle(150, 0, 300, 150), Color.White);
+                    spriteBatch.Draw(button, backtomenu, new Rectangle(0, 130, 160, 130), Color.White);
+                    spriteBatch.End();
+                    break;
 
-                /* for (int i = 0; i < 1; i++)
-                 {
-                     for (int j = 0; j < 5; j++)
-                     {
-                         spriteBatch.Draw(glassBlock, new Vector2(26 * i, 520+(20 * j)), Color.White);
-                     }
+                case State.pre:
+                    spriteBatch.Begin();
 
-                 }*/
+                    spriteBatch.Draw(end, new Vector2(0, 0), Color.White);
 
+                    //-------------------------- draw font state ----------------------------//
+                    switch (currentStage.stageNumber)
+                    {
+                        case 1:
+                            spriteBatch.Draw(state1_2, new Rectangle(180, 150, 370, 300), new Rectangle(200, 0, 370, 300), Color.White);
+                            break;
+                        case 2:
+                            spriteBatch.Draw(state1_2, new Rectangle(180, 200, 450, 650), new Rectangle(200, 300, 450, 650), Color.White);
+                            break;
+                        case 3:
+                            spriteBatch.Draw(state1_3, new Rectangle(180, 150, 400, 300), new Rectangle(200, 0, 400, 300), Color.White);
+                            break;
 
-                //spriteBatch.Draw(clock, new Vector2(5, 5), Color.White);
+                    }
 
-                //spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
+                    //spriteBatch.DrawString(font, "stage " + currentStage.stageNumber, new Vector2(100, 31), Color.White);
 
-                spriteBatch.Draw(charTexture, charPosition, new Rectangle(frame * 64, circleSprite, 64, 78), Color.White);
+                    spriteBatch.End();
+
+                    break;
+                case State.play:
+                    spriteBatch.Begin(cam);
+                    //---------------------------- draw play ------------------------------//
+                    currentStage.Draw(spriteBatch,gameTime);
+                    
+                    spriteBatch.Draw(charTexture, charPosition, new Rectangle(frame * 64, circleSprite, 64, 78), Color.White);
+                    spriteBatch.Draw(light, charPosition - new Vector2(light.Width / 2, light.Height / 2) + new Vector2(64 / 2, 78 / 2), Color.White);
+                    spriteBatch.End();
+
+                    //---------------------------------- draw time ----------------------------//
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(clock, new Vector2(5, 5), Color.White);
+
+                    spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
+
+                    spriteBatch.End();
+
+                    break;
+
+                case State.end:
+                    //------------------------------------- draw end -----------------------------//
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(end, screen, Color.White);
+                    spriteBatch.Draw(state1_1,new Rectangle(120,180,580,200),new Rectangle(100,0,580,200),Color.White);
+                    spriteBatch.End();
+                    break;
+
             }
-
-
-
-            spriteBatch.End();
-
-            spriteBatch.Begin();
-            if(startScreen == false && endScreen == false)
-            {
-                spriteBatch.Draw(clock, new Vector2(5, 5), Color.White);
-
-                spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
-            }
-            
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
+        void newStage(int stageNumber)
+        {
+
+            currentStage = new Stage(stageNumber);
+
+            gamestate = State.pre;
+            time = 3;
+            
+            //-------------------------------- position character -----------------------------//
+
+            switch (stageNumber)
+            {
+                case 1:
+                    charPosition = new Vector2(100, 1600);
+                    break;
+                case 2:
+                    charPosition = new Vector2(50, 300);
+                    break;
+                case 3:
+                    charPosition = new Vector2(50, 1800);
+                    break;
+            }
+
+            //------------------------- position camera ----------------------//
+            cam.Position = charPosition;
+
+            if (cam.Position.X < graphics.PreferredBackBufferWidth/2)
+            {
+                cam.Position = new Vector2(graphics.PreferredBackBufferWidth / 2,cam.Position.Y);
+            }
+            if (cam.Position.Y < graphics.PreferredBackBufferHeight / 2)
+            {
+                cam.Position = new Vector2(cam.Position.X,graphics.PreferredBackBufferHeight / 2);
+            }
+            if (cam.Position.X> currentStage.block.GetLength(1)*26 - graphics.PreferredBackBufferWidth/2)
+            {
+                cam.Position = new Vector2(currentStage.block.GetLength(1) * 26 - graphics.PreferredBackBufferWidth / 2, cam.Position.Y);
+            }
+            if (cam.Position.Y > currentStage.block.GetLength(0) * 20 - graphics.PreferredBackBufferHeight / 2)
+            {
+                cam.Position = new Vector2(cam.Position.X, currentStage.block.GetLength(0) * 20 - graphics.PreferredBackBufferHeight / 2);
+            }
+        }
+
         void UpdateFrame(float elapsed)
         {
             totalElapsed += elapsed;
