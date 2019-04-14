@@ -109,17 +109,17 @@ namespace Game1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            bg1 = Content.Load<Texture2D>("bg1-1");
+            bg1 = Content.Load<Texture2D>("bgstage1");
             font = Content.Load<SpriteFont>("default");
             charTexture = Content.Load<Texture2D>("splite");
-            glassBlock = Content.Load<Texture2D>("glassBlock");
-            clock = Content.Load<Texture2D>("clock");
+            glassBlock = Content.Load<Texture2D>("object1");
+            clock = Content.Load<Texture2D>("object1");
             start = Content.Load<Texture2D>("bgMenu");
             end = Content.Load<Texture2D>("end");
             ui = Content.Load<Texture2D>("menu2");
             light = Content.Load<Texture2D>("light2");
             bgHelp = Content.Load<Texture2D>("bghelp");
-            board = Content.Load<Texture2D>("board");
+            board = Content.Load<Texture2D>("howto");
             button = Content.Load<Texture2D>("button");
             state1_1 = Content.Load<Texture2D>("font1");
             state1_2 = Content.Load<Texture2D>("font2");
@@ -443,7 +443,6 @@ namespace Game1
                     spriteBatch.Begin();
                     spriteBatch.Draw(bgHelp, new Vector2(0, 0), Color.White);
                     spriteBatch.Draw(board, new Vector2(0, 0), Color.White);
-                    spriteBatch.Draw(button, new Rectangle(280, 80, 300, 150), new Rectangle(150, 0, 300, 150), Color.White);
                     spriteBatch.Draw(button, backtomenu, new Rectangle(0, 130, 160, 130), Color.White);
                     spriteBatch.End();
                     break;
@@ -479,12 +478,12 @@ namespace Game1
                     currentStage.Draw(spriteBatch,gameTime);
                     
                     spriteBatch.Draw(charTexture, charPosition, new Rectangle(frame * 64, circleSprite, 64, 78), Color.White);
-                    spriteBatch.Draw(light, charPosition - new Vector2(light.Width / 2, light.Height / 2) + new Vector2(64 / 2, 78 / 2), Color.White);
+                    //spriteBatch.Draw(light, charPosition - new Vector2(light.Width / 2, light.Height / 2) + new Vector2(64 / 2, 78 / 2), Color.White);
                     spriteBatch.End();
 
                     //---------------------------------- draw time ----------------------------//
                     spriteBatch.Begin();
-                    spriteBatch.Draw(clock, new Vector2(5, 5), Color.White);
+                   // spriteBatch.Draw(clock, new Rectangle(0,0,50,50),new Rectangle(50,0,50,50), Color.White);
 
                     spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
 
