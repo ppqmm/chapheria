@@ -1,0 +1,1 @@
+wood_01.png.png 44 55, wood_02.png.png 349 56, wood_03.png.png 63 214, wood_04.png.png 255 222.

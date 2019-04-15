@@ -17,6 +17,7 @@ namespace Game1
             tutorial,
             pre,
             play,
+            tower,
             end
         };
 
@@ -29,6 +30,10 @@ namespace Game1
 
         public static Texture2D bg1, bg2, bg3, b4;
         public static Texture2D glassBlock;
+        public static Texture2D hex;
+        public static Texture2D wood1, wood2, wood3, wood4;
+        public static Texture2D enter;
+        public static Texture2D exit;
 
         Texture2D clock;
         Texture2D charTexture;
@@ -40,10 +45,18 @@ namespace Game1
         Texture2D state1_1;
         Texture2D state1_2;
         Texture2D state1_3;
+        
+        Texture2D towerbg;
+        Texture2D tower;
+        Texture2D flag;
 
 
         Vector2 charPosition = new Vector2(0, 0);
         //Vector2 old_position = Vector2.Zero;
+
+        Vector2 flagPosition3 = new Vector2(440 - 100, 227);
+        Vector2 flagPosition2 = new Vector2(450 - 100, 347);
+        Vector2 flagPosition1 = new Vector2(460 - 100, 475);
 
         SpriteFont font;
         Rectangle screen;
@@ -110,10 +123,11 @@ namespace Game1
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bg1 = Content.Load<Texture2D>("bgstage1");
+            bg2 = Content.Load<Texture2D>("bgstage2");
             font = Content.Load<SpriteFont>("default");
             charTexture = Content.Load<Texture2D>("splite");
             glassBlock = Content.Load<Texture2D>("object1");
-            clock = Content.Load<Texture2D>("object1");
+            clock = Content.Load<Texture2D>("object7");
             start = Content.Load<Texture2D>("bgMenu");
             end = Content.Load<Texture2D>("end");
             ui = Content.Load<Texture2D>("menu2");
@@ -124,6 +138,17 @@ namespace Game1
             state1_1 = Content.Load<Texture2D>("font1");
             state1_2 = Content.Load<Texture2D>("font2");
             state1_3 = Content.Load<Texture2D>("font3");
+            enter = Content.Load<Texture2D>("object2 (2)");
+            exit = Content.Load<Texture2D>("object3");
+
+            towerbg = Content.Load<Texture2D>("bglevelup");
+            tower = Content.Load<Texture2D>("levelup_02");
+            flag = Content.Load<Texture2D>("levelup_01");
+
+            wood1 = Content.Load<Texture2D>("wood_01");
+            wood2 = Content.Load<Texture2D>("wood_02");
+            wood3 = Content.Load<Texture2D>("wood_03");
+            wood4 = Content.Load<Texture2D>("wood_04");
 
             framePerSec = 4;
             timePerFrame = (float)1 / framePerSec;
@@ -166,7 +191,7 @@ namespace Game1
 
                         if (mouse.LeftButton == ButtonState.Pressed)
                         {
-                            newStage(1);
+                            newStage(4);
                         }
                     }
                     else
@@ -238,13 +263,13 @@ namespace Game1
 
                     time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
 
-                    if(time <= 0)
+                    if (time <= 0)
                     {
                         time = 3;
                         gamestate = State.end;
 
                     }
-                    
+
 
                     //-------------------- camera ---------------------------//
                     //cam.Update(gameTime);
@@ -281,27 +306,42 @@ namespace Game1
 
                     UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-                    for (int i = 0; i < currentStage.grassList.Count; i++)
+                    switch (currentStage.stageNumber)
                     {
-                        //---------------------- collision -----------------------//
-                        Rectangle charRectangle = new Rectangle((int)charPosition.X, (int)charPosition.Y, 64, 78);
-                        Rectangle glassBlockRectangle = new Rectangle((int)currentStage.grassList[i].X, (int)currentStage.grassList[i].Y, 26, 15);
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 7:
+                        case 8:
+                        case 9:
 
-                        if (charRectangle.Intersects(glassBlockRectangle) == true)
-                        {
-                            grassBlockHit = true;
-                        }
-                        else if (charRectangle.Intersects(glassBlockRectangle) == false)
-                        {
-                            grassBlockHit = false;
-                        }
+                            break;
+                        case 4:
+                        case 5:
+                        case 6:
+                            for (int i = 0; i < currentStage.grassList.Count; i++)
+                            {
+                                //---------------------- collision -----------------------//
+                                Rectangle charRectangle = new Rectangle((int)charPosition.X, (int)charPosition.Y + 78 - 15, 64, 15);
+                                Rectangle glassBlockRectangle = new Rectangle((int)currentStage.grassList[i].X, (int)currentStage.grassList[i].Y, 26, 15);
+
+                                if (charRectangle.Intersects(glassBlockRectangle) == true)
+                                {
+                                    grassBlockHit = false;
+                                }
+                                else if (charRectangle.Intersects(glassBlockRectangle) == false)
+                                {
+                                    grassBlockHit = true;
+                                }
 
 
-                        if (grassBlockHit == true)
-                        {
-                            charPosition = old_position;
-                        }
+                                if (grassBlockHit == true)
+                                {
+                                    charPosition = old_position;
+                                }
 
+                            }
+                            break;
                     }
 
                     for (int i = 0; i < currentStage.exitList.Count; i++)
@@ -312,7 +352,17 @@ namespace Game1
 
                         if (charRectangle.Intersects(exitBlockRectangle) == true)
                         {
-                            newStage(currentStage.stageNumber + 1);
+                            if (currentStage.stageNumber == 3 || currentStage.stageNumber == 6 || currentStage.stageNumber == 9)
+                            {
+                                //
+                                time = 4;
+                                gamestate = State.tower;
+                            }
+                            else
+                            {
+                                newStage(currentStage.stageNumber + 1);
+                            }
+
                         }
                     }
                     //cam.Position = charPosition;
@@ -357,7 +407,7 @@ namespace Game1
 
                         var resultPosition = new Vector2(scr2world.X - graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
 
-                        if (resultPosition.X + offset.X <= currentStage.block.GetLength(1) * 26) 
+                        if (resultPosition.X + offset.X <= currentStage.block.GetLength(1) * 26)
                         {
                             cam.Position = resultPosition;
                         }
@@ -379,9 +429,34 @@ namespace Game1
 
                     break;
 
+                case State.tower:
+
+                    time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
+                    if (time <= 0)
+                    {
+                        newStage(currentStage.stageNumber + 1);
+                    }
+
+                    switch (currentStage.stageNumber)
+                    {
+                        case 3:
+                            flagPosition1.X += 100 * (float)gameTime.ElapsedGameTime.TotalSeconds / 4;
+                            break;
+                        case 6:
+                            flagPosition2.X += 100 * (float)gameTime.ElapsedGameTime.TotalSeconds / 4;
+                            break;
+                        case 9:
+                            flagPosition3.X += 100 * (float)gameTime.ElapsedGameTime.TotalSeconds / 4;
+                            break;
+                    }
+
+                    break;
+
+                    break;
+
                 case State.end:
                     time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
-                    if(time <= 0)
+                    if (time <= 0)
                     {
                         gamestate = State.menu;
                     }
@@ -464,6 +539,9 @@ namespace Game1
                         case 3:
                             spriteBatch.Draw(state1_3, new Rectangle(180, 150, 400, 300), new Rectangle(200, 0, 400, 300), Color.White);
                             break;
+                        case 4:
+                            spriteBatch.Draw(state1_3, new Rectangle(180, 200, 440, 650), new Rectangle(200, 300, 450, 650), Color.White);
+                            break;
 
                     }
 
@@ -475,27 +553,53 @@ namespace Game1
                 case State.play:
                     spriteBatch.Begin(cam);
                     //---------------------------- draw play ------------------------------//
-                    currentStage.Draw(spriteBatch,gameTime);
-                    
+                    currentStage.Draw(spriteBatch, gameTime);
+
                     spriteBatch.Draw(charTexture, charPosition, new Rectangle(frame * 64, circleSprite, 64, 78), Color.White);
-                    //spriteBatch.Draw(light, charPosition - new Vector2(light.Width / 2, light.Height / 2) + new Vector2(64 / 2, 78 / 2), Color.White);
+                    switch (currentStage.stageNumber)
+                    {
+                        case 1:
+                        case 2:
+                        case 3:
+                            spriteBatch.Draw(light, charPosition - new Vector2(light.Width / 2, light.Height / 2) + new Vector2(64 / 2, 78 / 2), Color.White);
+                            break;
+                    }
                     spriteBatch.End();
 
                     //---------------------------------- draw time ----------------------------//
                     spriteBatch.Begin();
-                   // spriteBatch.Draw(clock, new Rectangle(0,0,50,50),new Rectangle(50,0,50,50), Color.White);
-
-                    spriteBatch.DrawString(font, time.ToString("0"), new Vector2(100, 31), Color.Black);
-
+                    switch (currentStage.stageNumber)
+                    {
+                        case 1:
+                        case 2:
+                        case 3:
+                            spriteBatch.Draw(clock, new Rectangle(10, 5, 192, 88), Color.White);
+                            spriteBatch.DrawString(font, time.ToString("0"), new Vector2(110, 40), Color.Black);
+                            break;
+                    }
                     spriteBatch.End();
 
+                    break;
+
+
+                case State.tower:
+                    //------------------------------------- draw tower -----------------------------//
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(towerbg, new Vector2(0,0), Color.White);
+                    spriteBatch.Draw(flag, flagPosition1, Color.White);
+                    spriteBatch.Draw(flag, flagPosition2, Color.White);
+                    spriteBatch.Draw(flag, flagPosition3, Color.White);
+
+                    spriteBatch.Draw(tower, new Vector2((graphics.PreferredBackBufferWidth - tower.Width) / 2, graphics.PreferredBackBufferHeight - tower.Height), Color.White);
+
+                    spriteBatch.End();
                     break;
 
                 case State.end:
                     //------------------------------------- draw end -----------------------------//
                     spriteBatch.Begin();
                     spriteBatch.Draw(end, screen, Color.White);
-                    spriteBatch.Draw(state1_1,new Rectangle(120,180,580,200),new Rectangle(100,0,580,200),Color.White);
+                    spriteBatch.Draw(state1_1, new Rectangle(120, 180, 580, 200), new Rectangle(100, 0, 580, 200), Color.White);
                     spriteBatch.End();
                     break;
 
@@ -511,34 +615,34 @@ namespace Game1
 
             gamestate = State.pre;
             time = 3;
-            
+
             //-------------------------------- position character -----------------------------//
 
             switch (stageNumber)
             {
                 case 1:
-                    charPosition = new Vector2(100, 1600);
+                    charPosition = new Vector2(0, 1650);
                     break;
                 case 2:
-                    charPosition = new Vector2(50, 300);
+                    charPosition = new Vector2(0, 230);
                     break;
                 case 3:
-                    charPosition = new Vector2(50, 1800);
+                    charPosition = new Vector2(0, 1850);
                     break;
             }
 
             //------------------------- position camera ----------------------//
             cam.Position = charPosition;
 
-            if (cam.Position.X < graphics.PreferredBackBufferWidth/2)
+            if (cam.Position.X < graphics.PreferredBackBufferWidth / 2)
             {
-                cam.Position = new Vector2(graphics.PreferredBackBufferWidth / 2,cam.Position.Y);
+                cam.Position = new Vector2(graphics.PreferredBackBufferWidth / 2, cam.Position.Y);
             }
             if (cam.Position.Y < graphics.PreferredBackBufferHeight / 2)
             {
-                cam.Position = new Vector2(cam.Position.X,graphics.PreferredBackBufferHeight / 2);
+                cam.Position = new Vector2(cam.Position.X, graphics.PreferredBackBufferHeight / 2);
             }
-            if (cam.Position.X> currentStage.block.GetLength(1)*26 - graphics.PreferredBackBufferWidth/2)
+            if (cam.Position.X > currentStage.block.GetLength(1) * 26 - graphics.PreferredBackBufferWidth / 2)
             {
                 cam.Position = new Vector2(currentStage.block.GetLength(1) * 26 - graphics.PreferredBackBufferWidth / 2, cam.Position.Y);
             }
