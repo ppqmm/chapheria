@@ -34,11 +34,12 @@ namespace Game1
         public static Texture2D wood1, wood2, wood3, wood4;
         public static Texture2D enter;
         public static Texture2D exit;
+        public static Texture2D charTexture;
+        public static Texture2D hexTexture;
+        public static Texture2D light;
 
         Texture2D clock;
-        Texture2D charTexture;
         Texture2D ui;
-        Texture2D light;
         Texture2D bgHelp;
         Texture2D board;
         Texture2D button;
@@ -51,8 +52,7 @@ namespace Game1
         Texture2D flag;
 
 
-        Vector2 charPosition = new Vector2(0, 0);
-        //Vector2 old_position = Vector2.Zero;
+        //Vector2 position = new Vector2(0, 0);
 
         Vector2 flagPosition3 = new Vector2(440 - 100, 227);
         Vector2 flagPosition2 = new Vector2(450 - 100, 347);
@@ -66,11 +66,6 @@ namespace Game1
 
         bool startScreen = true, endScreen = false;
         bool grassBlockHit;
-        int circleSprite = 0;
-        int frame;
-        float totalElapsed;
-        float timePerFrame;
-        int framePerSec;
 
         Camera cam;
 
@@ -79,7 +74,7 @@ namespace Game1
         Rectangle playRect = new Rectangle(0, 180, 250, 140);
         Rectangle tutorialRect = new Rectangle(0, 310, 250, 85);
         Rectangle exitRect = new Rectangle(0, 385, 250, 110);
-        Rectangle backtomenu = new Rectangle(0, 450, 160, 130);
+        Rectangle backtomenu = new Rectangle(0, 0, 160, 130);
 
         bool isPlayClicked = false;
         bool isTutorialClicked = false;
@@ -87,8 +82,9 @@ namespace Game1
         bool isBackClicked = false;
 
 
-        Stage currentStage;
+        public Stage currentStage;
 
+        public Player player;
 
         public Game1()
         {
@@ -115,6 +111,8 @@ namespace Game1
 
             gamestate = State.menu;
 
+            player = new Player(this);
+
         }
 
 
@@ -125,7 +123,8 @@ namespace Game1
             bg1 = Content.Load<Texture2D>("bgstage1");
             bg2 = Content.Load<Texture2D>("bgstage2");
             font = Content.Load<SpriteFont>("default");
-            charTexture = Content.Load<Texture2D>("splite");
+            charTexture = Content.Load<Texture2D>("splite1 (1)");
+            hexTexture = Content.Load<Texture2D>("splite2 (1)");
             glassBlock = Content.Load<Texture2D>("object1");
             clock = Content.Load<Texture2D>("object7");
             start = Content.Load<Texture2D>("bgMenu");
@@ -149,11 +148,7 @@ namespace Game1
             wood2 = Content.Load<Texture2D>("wood_02");
             wood3 = Content.Load<Texture2D>("wood_03");
             wood4 = Content.Load<Texture2D>("wood_04");
-
-            framePerSec = 4;
-            timePerFrame = (float)1 / framePerSec;
-            frame = 0;
-            totalElapsed = 0;
+            
 
             screen = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
@@ -191,7 +186,7 @@ namespace Game1
 
                         if (mouse.LeftButton == ButtonState.Pressed)
                         {
-                            newStage(4);
+                            newStage(1);
                         }
                     }
                     else
@@ -257,9 +252,9 @@ namespace Game1
                     break;
                 case State.play:
 
-                    Vector2 old_position = charPosition;
 
                     currentStage.Update(gameTime);
+                    player.Update(gameTime, keyboard);
 
                     time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
 
@@ -270,109 +265,14 @@ namespace Game1
 
                     }
 
-
-                    //-------------------- camera ---------------------------//
-                    //cam.Update(gameTime);
-
-
-                    if (time == 0) endScreen = true;
-
-                    //------------------------------ walk ------------------------//
-                    GraphicsDevice device = graphics.GraphicsDevice;
-
-                    if (keyboard.IsKeyDown(Keys.Left))
-                    {
-                        charPosition.X = charPosition.X - 6;
-                        circleSprite = 78 * 2;
-                    }
-
-                    if (keyboard.IsKeyDown(Keys.Right))
-                    {
-                        charPosition.X = charPosition.X + 6;
-                        circleSprite = 78 * 3;
-                    }
-
-                    if (keyboard.IsKeyDown(Keys.Up))
-                    {
-                        charPosition.Y = charPosition.Y - 6;
-                        circleSprite = 78;
-                    }
-
-                    if (keyboard.IsKeyDown(Keys.Down))
-                    {
-                        charPosition.Y = charPosition.Y + 6;
-                        circleSprite = 0;
-                    }
-
-                    UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
-
-                    switch (currentStage.stageNumber)
-                    {
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 7:
-                        case 8:
-                        case 9:
-
-                            break;
-                        case 4:
-                        case 5:
-                        case 6:
-                            for (int i = 0; i < currentStage.grassList.Count; i++)
-                            {
-                                //---------------------- collision -----------------------//
-                                Rectangle charRectangle = new Rectangle((int)charPosition.X, (int)charPosition.Y + 78 - 15, 64, 15);
-                                Rectangle glassBlockRectangle = new Rectangle((int)currentStage.grassList[i].X, (int)currentStage.grassList[i].Y, 26, 15);
-
-                                if (charRectangle.Intersects(glassBlockRectangle) == true)
-                                {
-                                    grassBlockHit = false;
-                                }
-                                else if (charRectangle.Intersects(glassBlockRectangle) == false)
-                                {
-                                    grassBlockHit = true;
-                                }
-
-
-                                if (grassBlockHit == true)
-                                {
-                                    charPosition = old_position;
-                                }
-
-                            }
-                            break;
-                    }
-
-                    for (int i = 0; i < currentStage.exitList.Count; i++)
-                    {
-                        //---------------------- collision -----------------------//
-                        Rectangle charRectangle = new Rectangle((int)charPosition.X, (int)charPosition.Y, 64, 78);
-                        Rectangle exitBlockRectangle = new Rectangle((int)currentStage.exitList[i].X, (int)currentStage.exitList[i].Y, 26, 15);
-
-                        if (charRectangle.Intersects(exitBlockRectangle) == true)
-                        {
-                            if (currentStage.stageNumber == 3 || currentStage.stageNumber == 6 || currentStage.stageNumber == 9)
-                            {
-                                //
-                                time = 4;
-                                gamestate = State.tower;
-                            }
-                            else
-                            {
-                                newStage(currentStage.stageNumber + 1);
-                            }
-
-                        }
-                    }
-                    //cam.Position = charPosition;
+                    
                     //------------------------- camera -------------------------------------//
 
                     var screenPosition = Vector2.Zero;
                     var worldPosition = Vector2.Zero;
                     var offset = new Vector2(graphics.PreferredBackBufferWidth * 0.5f, graphics.PreferredBackBufferHeight * 0.5f);
 
-                    cam.ToScreen(ref charPosition, out screenPosition);
+                    cam.ToScreen(ref player.position, out screenPosition);
 
                     if (screenPosition.X < -graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
                     {
@@ -554,16 +454,7 @@ namespace Game1
                     spriteBatch.Begin(cam);
                     //---------------------------- draw play ------------------------------//
                     currentStage.Draw(spriteBatch, gameTime);
-
-                    spriteBatch.Draw(charTexture, charPosition, new Rectangle(frame * 64, circleSprite, 64, 78), Color.White);
-                    switch (currentStage.stageNumber)
-                    {
-                        case 1:
-                        case 2:
-                        case 3:
-                            spriteBatch.Draw(light, charPosition - new Vector2(light.Width / 2, light.Height / 2) + new Vector2(64 / 2, 78 / 2), Color.White);
-                            break;
-                    }
+                    player.Draw(spriteBatch, gameTime);
                     spriteBatch.End();
 
                     //---------------------------------- draw time ----------------------------//
@@ -575,6 +466,10 @@ namespace Game1
                         case 3:
                             spriteBatch.Draw(clock, new Rectangle(10, 5, 192, 88), Color.White);
                             spriteBatch.DrawString(font, time.ToString("0"), new Vector2(110, 40), Color.Black);
+
+
+                            spriteBatch.DrawString(font, player.health.ToString("0"), new Vector2(400, 40), Color.White);
+
                             break;
                     }
                     spriteBatch.End();
@@ -608,10 +503,15 @@ namespace Game1
             base.Draw(gameTime);
         }
 
+        public void GameOver()
+        {
+            gamestate = State.end;
+        }
+
         void newStage(int stageNumber)
         {
 
-            currentStage = new Stage(stageNumber);
+            currentStage = new Stage(this,stageNumber);
 
             gamestate = State.pre;
             time = 3;
@@ -621,18 +521,18 @@ namespace Game1
             switch (stageNumber)
             {
                 case 1:
-                    charPosition = new Vector2(0, 1650);
+                    player.position = new Vector2(0, 1650);
                     break;
                 case 2:
-                    charPosition = new Vector2(0, 230);
+                    player.position = new Vector2(0, 230);
                     break;
                 case 3:
-                    charPosition = new Vector2(0, 1850);
+                    player.position = new Vector2(0, 1850);
                     break;
             }
 
             //------------------------- position camera ----------------------//
-            cam.Position = charPosition;
+            cam.Position = player.position;
 
             if (cam.Position.X < graphics.PreferredBackBufferWidth / 2)
             {
@@ -652,13 +552,18 @@ namespace Game1
             }
         }
 
-        void UpdateFrame(float elapsed)
+        public void progressNextStage()
         {
-            totalElapsed += elapsed;
-            if (totalElapsed > timePerFrame)
+
+            if (currentStage.stageNumber == 3 || currentStage.stageNumber == 6 || currentStage.stageNumber == 9)
             {
-                frame = (frame + 1) % 4;
-                totalElapsed -= timePerFrame;
+                //
+                time = 4;
+                gamestate = State.tower;
+            }
+            else
+            {
+                newStage(currentStage.stageNumber + 1);
             }
         }
     }

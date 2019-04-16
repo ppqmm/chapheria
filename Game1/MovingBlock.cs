@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Game1
 {
-    class MovingBlock
+    public class MovingBlock
     {
         int type;
         public Vector2 position;
