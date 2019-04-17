@@ -186,7 +186,7 @@ namespace Game1
 
                         if (mouse.LeftButton == ButtonState.Pressed)
                         {
-                            newStage(1);
+                            newStage(4);
                         }
                     }
                     else

@@ -26,6 +26,9 @@ namespace Game1
 
         int blinkframe = 0;
 
+
+        int containIndex = 0;
+
         protected enum Direction
         {
             up = 99 * 3,
@@ -124,26 +127,69 @@ namespace Game1
                 case 4:
                 case 5:
                 case 6:
-                    for (int i = 0; i < game.currentStage.grassList.Count; i++)
+                    bool isContain = false;
+                    //movingBlocksList
+                    for (int i = 0; i < game.currentStage.movingBlocksList.Count; i++)
                     {
                         //---------------------- collision -----------------------//
-                        Rectangle charRectangle = new Rectangle((int)position.X, (int)position.Y + (int)size.Y - 15, (int)size.X, 15);
-                        Rectangle glassBlockRectangle = new Rectangle((int)game.currentStage.grassList[i].X, (int)game.currentStage.grassList[i].Y, 26, 15);
+                        Rectangle charRectangle = new Rectangle((int)position.X, (int)position.Y + (int)(size.Y) - 25, (int)size.X, 25);
+                        Rectangle movingRectangle = new Rectangle((int)game.currentStage.movingBlocksList[i].position.X, (int)game.currentStage.movingBlocksList[i].position.Y, (int)game.currentStage.movingBlocksList[i].size.X, (int)game.currentStage.movingBlocksList[i].size.Y);
 
-                        if (charRectangle.Intersects(glassBlockRectangle))
+                        game.currentStage.movingBlocksList[i].isPlayerOnMe = false;
+
+                        if (movingRectangle.Contains(charRectangle))
                         {
-                            hit = false;
+                            isContain = true;
+                            containIndex = i;
+                            game.currentStage.movingBlocksList[i].isPlayerOnMe = true;
                         }
-                        else if (!charRectangle.Intersects(glassBlockRectangle))
+                    }
+
+                    if (!isContain)
+                    {
+                        bool isMovingNextStepX = false;
+                        for (int j = 0; j < game.currentStage.movingBlocksList.Count; j++)
                         {
-                            hit = true;
+                            if (containIndex != j && 
+                                position.X + size.X > game.currentStage.movingBlocksList[j].position.X && 
+                                position.X < game.currentStage.movingBlocksList[j].position.X + game.currentStage.movingBlocksList[j].size.X &&
+                                position.Y + size.Y - 25 >= game.currentStage.movingBlocksList[j].position.Y &&
+                                position.Y + size.Y <= game.currentStage.movingBlocksList[j].position.Y + game.currentStage.movingBlocksList[j].size.Y )
+                            {
+                                isMovingNextStepX = true;
+                            }
+                        }
+
+                        if (isMovingNextStepX)
+                        {
+                            old_position.X = position.X;
                         }
 
 
-                        if (hit)
+
+                        bool isMovingNextStepY = false;
+                        for (int j = 0; j < game.currentStage.movingBlocksList.Count; j++)
+                        {
+                            if (containIndex != j &&
+                                position.Y + size.Y > game.currentStage.movingBlocksList[j].position.Y &&
+                                position.Y + size.Y - 25 < game.currentStage.movingBlocksList[j].position.Y + game.currentStage.movingBlocksList[j].size.Y &&
+                                position.X >= game.currentStage.movingBlocksList[j].position.X &&
+                                position.X + size.X <= game.currentStage.movingBlocksList[j].position.X + game.currentStage.movingBlocksList[j].size.X)
+                            {
+                                Console.WriteLine("in");
+                                isMovingNextStepY = true;
+                            }
+                        }
+                        if (isMovingNextStepY)
+                        {
+                            position.X = old_position.X;
+                        }
+                        else
                         {
                             position = old_position;
+                            game.currentStage.movingBlocksList[containIndex].isPlayerOnMe = true;
                         }
+
 
                     }
                     break;
@@ -221,7 +267,7 @@ namespace Game1
                 case 1:
                 case 2:
                 case 3:
-                    spriteBatch.Draw(Game1.light,new Rectangle((int)drawingVector.X, (int)drawingVector.Y, (int)(Game1.light.Width * scale), (int)(Game1.light.Height* scale)), new Rectangle(0,0,Game1.light.Width,Game1.light.Height),Color.White);
+                    spriteBatch.Draw(Game1.light, new Rectangle((int)drawingVector.X, (int)drawingVector.Y, (int)(Game1.light.Width * scale), (int)(Game1.light.Height * scale)), new Rectangle(0, 0, Game1.light.Width, Game1.light.Height), Color.White);
                     break;
             }
         }

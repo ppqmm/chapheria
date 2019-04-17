@@ -11,6 +11,7 @@ namespace Game1
 {
     public class MovingBlock
     {
+        Game1 game;
         int type;
         public Vector2 position;
 
@@ -19,41 +20,84 @@ namespace Game1
 
         public Vector2 size;
 
+        public bool isPlayerOnMe = false;
+
         Texture2D currentblock;
 
         int dir = 1;
 
-        public MovingBlock(int type,Vector2 des1,Vector2 des2)
+        float delta;
+        float duration;
+
+        public MovingBlock(Game1 game, int type, Vector2 des1, Vector2 des2)
         {
+            this.game = game;
             this.type = type;
+            duration = 5;
+            switch (this.type)
+            {
+                case 1:
+                case 2:
+                    if (des1.X <= des2.X)
+                    {
+                        position = des1;
+                        destination1 = des1;
+                        destination2 = des2;
+                    }
+                    else
+                    {
+                        position = des1;
+                        destination1 = des2;
+                        destination2 = des1;
+                    }
+                    delta = destination2.X - destination1.X;
+
+                    break;
+                case 3:
+                case 4:
+
+                    if (des1.Y <= des2.Y)
+                    {
+                        position = des1;
+                        destination1 = des1;
+                        destination2 = des2;
+
+                    }
+                    else
+                    {
+                        position = des1;
+                        destination1 = des2;
+                        destination2 = des1;
+
+                    }
+                    delta = destination2.Y - destination1.Y;
+                    break;
+            }
 
             switch (this.type)
             {
                 case 1:
-                    size = new Vector2(179, 69);
+                    size = new Vector2(179, 50);
                     currentblock = Game1.wood1;
                     break;
 
                 case 2:
-                    size = new Vector2(154, 61);
+                    size = new Vector2(154, 51);
                     currentblock = Game1.wood2;
                     break;
 
                 case 3:
-                    size = new Vector2(79, 127);
+                    size = new Vector2(79, 100);
                     currentblock = Game1.wood3;
                     break;
 
                 case 4:
-                    size = new Vector2(76, 126);
+                    size = new Vector2(76, 75);
                     currentblock = Game1.wood4;
                     break;
             }
 
-            position = des1;
 
-            destination1 = des1;
-            destination2 = des2;
 
         }
 
@@ -63,16 +107,24 @@ namespace Game1
             {
                 case 1:
                 case 2:
-                    position.X += 1 * dir;
-                    if (position.X >= destination2.X - size.X || position.X < destination1.X)
+                    position.X +=  delta * (float)gameTime.ElapsedGameTime.TotalSeconds * dir / duration;
+                    if (isPlayerOnMe)
+                    {
+                        game.player.position.X += delta * (float)gameTime.ElapsedGameTime.TotalSeconds * dir / duration;
+                    }
+                    if (position.X > destination2.X || position.X < destination1.X)
                     {
                         dir *= -1;
                     }
                     break;
                 case 3:
                 case 4:
-                    position.Y += 1 * dir;
-                    if (position.Y >= destination2.Y - size.Y || position.Y < destination1.Y)
+                    position.Y += delta * (float)gameTime.ElapsedGameTime.TotalSeconds * dir / duration;
+                    if (isPlayerOnMe)
+                    {
+                        game.player.position.Y += delta * (float)gameTime.ElapsedGameTime.TotalSeconds * dir / duration;
+                    }
+                    if (position.Y > destination2.Y || position.Y < destination1.Y)
                     {
                         dir *= -1;
                     }
@@ -80,7 +132,7 @@ namespace Game1
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch,GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Draw(currentblock, position, Color.White);
         }
