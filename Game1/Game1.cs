@@ -37,6 +37,8 @@ namespace Game1
         public static Texture2D charTexture;
         public static Texture2D hexTexture;
         public static Texture2D light;
+        public static Texture2D blockBlood, blood;
+
 
         Texture2D clock;
         Texture2D ui;
@@ -144,6 +146,8 @@ namespace Game1
             state1_3 = Content.Load<Texture2D>("font3");
             enter = Content.Load<Texture2D>("object2 (2)");
             exit = Content.Load<Texture2D>("object3");
+            blockBlood = Content.Load<Texture2D>("timeblood_02");
+            blood = Content.Load<Texture2D>("timeblood_03");
 
             towerbg = Content.Load<Texture2D>("bglevelup");
             tower = Content.Load<Texture2D>("levelup_02");
@@ -191,7 +195,7 @@ namespace Game1
 
                         if (mouse.LeftButton == ButtonState.Pressed)
                         {
-                            newStage(4);
+                            newStage(1);
                         }
                     }
                     else
@@ -464,6 +468,12 @@ namespace Game1
 
                     //---------------------------------- draw time ----------------------------//
                     spriteBatch.Begin();
+                    //spriteBatch.Draw(blood, new Vector2(550, 30), Color.White);
+
+                    float healthwidth = blood.Width * player.health/5f;
+
+                    spriteBatch.Draw(blood,new Rectangle(550, 40,(int)healthwidth, 30), new Rectangle(0, 0, (int)healthwidth, 30), Color.White);
+                    spriteBatch.Draw(blockBlood, new Vector2(500, 20), Color.White);
                     switch (currentStage.stageNumber)
                     {
                         case 1:
@@ -473,7 +483,7 @@ namespace Game1
                             spriteBatch.DrawString(font, time.ToString("0"), new Vector2(110, 40), Color.Black);
 
 
-                            spriteBatch.DrawString(font, player.health.ToString("0"), new Vector2(400, 40), Color.White);
+                            //spriteBatch.DrawString(font, player.health.ToString("0"), new Vector2(400, 40), Color.White);
 
                             break;
                     }
