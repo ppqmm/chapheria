@@ -13,6 +13,7 @@ namespace Game1
     {
         protected Game1 game;
         public Vector2 position;
+        public Vector2 old_position;
         public Vector2 size;
 
         protected int frame;
@@ -25,9 +26,10 @@ namespace Game1
         float delayTime;
 
         int blinkframe = 0;
-
-
+        
         int containIndex = 0;
+
+        float falloutTime = 0;
 
         protected enum Direction
         {
@@ -59,7 +61,7 @@ namespace Game1
         {
 
 
-            Vector2 old_position = position;
+            old_position = position;
             bool hit = false;
             bool walk = false;
 
@@ -91,6 +93,7 @@ namespace Game1
                 walk = true;
             }
 
+            Rectangle charRectangle;
 
             switch (game.currentStage.stageNumber)
             {
@@ -104,7 +107,7 @@ namespace Game1
                     for (int i = 0; i < game.currentStage.grassList.Count; i++)
                     {
                         //---------------------- collision -----------------------//
-                        Rectangle charRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                        charRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
                         Rectangle glassBlockRectangle = new Rectangle((int)game.currentStage.grassList[i].X, (int)game.currentStage.grassList[i].Y, 26, 15);
 
                         if (charRectangle.Intersects(glassBlockRectangle))
@@ -127,6 +130,8 @@ namespace Game1
                 case 4:
                 case 5:
                 case 6:
+
+                    /*
                     bool isContain = false;
                     //movingBlocksList
                     for (int i = 0; i < game.currentStage.movingBlocksList.Count; i++)
@@ -165,8 +170,6 @@ namespace Game1
                             old_position.X = position.X;
                         }
 
-
-
                         bool isMovingNextStepY = false;
                         for (int j = 0; j < game.currentStage.movingBlocksList.Count; j++)
                         {
@@ -189,9 +192,53 @@ namespace Game1
                             position = old_position;
                             game.currentStage.movingBlocksList[containIndex].isPlayerOnMe = true;
                         }
+                    }
+                    */
 
+                    //float xSizeMultiplier = 0.5f;
+
+                    charRectangle = new Rectangle(
+                        (int)position.X + (int)((size.X - 2) / 2),
+                        (int)position.Y + (int)(size.Y) - 10,
+                        2,
+                        2
+                        );
+
+                    var isOnBlock = false;
+
+                    for (int i = 0; i < game.currentStage.movingBlocksList.Count; i++)
+                    {
+                        MovingBlock movingBlock = game.currentStage.movingBlocksList[i];
+                        Rectangle movingRectangle = new Rectangle((int)movingBlock.position.X, (int)movingBlock.position.Y, (int)movingBlock.size.X, (int)movingBlock.size.Y);
+
+                        movingBlock.isPlayerOnMe = false;
+
+                        if (charRectangle.Intersects(movingRectangle))
+                        {
+                            containIndex = i;
+                            movingBlock.isPlayerOnMe = true;
+                            isOnBlock = true;
+                        }
 
                     }
+
+                    if (!isOnBlock)
+                    {
+                        game.currentStage.movingBlocksList[containIndex].isPlayerOnMe = true;
+                        position = old_position;
+                        falloutTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        if (falloutTime <= 0)
+                        {
+                            //game.GameOver();
+                        }
+                    }
+                    else
+                    {
+                        falloutTime = 0.1f;
+                    }
+
+                    //Rectangle charRectangle = new Rectangle()
+
                     break;
             }
 
@@ -199,7 +246,7 @@ namespace Game1
             for (int i = 0; i < game.currentStage.witchList.Count; i++)
             {
                 //---------------------- collision -----------------------//
-                Rectangle charRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                charRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
                 Rectangle witchRectangle = new Rectangle((int)game.currentStage.witchList[i].position.X, (int)game.currentStage.witchList[i].position.Y, (int)size.X, (int)size.Y);
 
                 if (charRectangle.Intersects(witchRectangle) && delayTime <= 0)
@@ -224,7 +271,7 @@ namespace Game1
             for (int i = 0; i < game.currentStage.exitList.Count; i++)
             {
                 //---------------------- collision -----------------------//
-                Rectangle charRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                charRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
                 Rectangle exitBlockRectangle = new Rectangle((int)game.currentStage.exitList[i].X, (int)game.currentStage.exitList[i].Y, 26, 15);
 
                 if (charRectangle.Intersects(exitBlockRectangle))
@@ -258,6 +305,17 @@ namespace Game1
                 spriteBatch.Draw(Game1.charTexture, position, new Rectangle(frame * (int)size.X, (int)direction, (int)size.X, (int)size.Y), Color.White);
             }
 
+
+            Rectangle
+                    charRectangle = new Rectangle(
+                        (int)position.X + (int)((size.X - 2) / 2),
+                        (int)position.Y + (int)(size.Y) - 10,
+                        2,
+                        2
+                        );
+            //spriteBatch.Draw(Game1.blx, charRectangle, Color.Red);
+
+
             float scale = 1;
 
             var drawingVector = position - new Vector2(Game1.light.Width / 2 * scale, Game1.light.Height / 2 * scale) + new Vector2(size.X / 2, size.Y / 2);
@@ -270,6 +328,7 @@ namespace Game1
                     spriteBatch.Draw(Game1.light, new Rectangle((int)drawingVector.X, (int)drawingVector.Y, (int)(Game1.light.Width * scale), (int)(Game1.light.Height * scale)), new Rectangle(0, 0, Game1.light.Width, Game1.light.Height), Color.White);
                     break;
             }
+
         }
 
 

@@ -65,7 +65,7 @@ namespace Game1
                     break;
                 case 4:
                     setupStage4();
-                    enterPosition = new Vector2(0, 0);
+                    enterPosition = new Vector2(0, 320);
                     exitPosition = new Vector2(0, 0);
                     currentbg = Game1.bg2;
                     currentblock = Game1.glassBlock;
@@ -894,8 +894,12 @@ namespace Game1
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
-            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(-100, 70), new Vector2(500, 70)));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(620, 570), new Vector2(620, 70)));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(50, 330), new Vector2(450, 0),3));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(600, 500), new Vector2(0, -260),2));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(550, 500), new Vector2(650, 0), 3));
+
+            //------------------- block start -------------------//
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(0, 300), new Vector2(0, 0),1));
         }
 
         public void Update(GameTime gameTime)
@@ -925,9 +929,6 @@ namespace Game1
             }
             //------------------ draw enter/exit --------------------------//
 
-            spriteBatch.Draw(Game1.enter, enterPosition, Color.White);
-            spriteBatch.Draw(Game1.exit, exitPosition, Color.White);
-
 
             for (int i = 0; i < grassList.Count; i++)
             {
@@ -943,6 +944,11 @@ namespace Game1
             {
                 witchList[i].Draw(spriteBatch, gameTime);
             }
+
+
+            spriteBatch.Draw(Game1.enter, enterPosition, Color.White);
+            spriteBatch.Draw(Game1.exit, exitPosition, Color.White);
+
         }
 
     }

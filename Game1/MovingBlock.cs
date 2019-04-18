@@ -29,48 +29,43 @@ namespace Game1
         float delta;
         float duration;
 
-        public MovingBlock(Game1 game, int type, Vector2 des1, Vector2 des2)
+        public MovingBlock(Game1 game, int type, Vector2 start, Vector2 des, float duration)
         {
             this.game = game;
             this.type = type;
-            duration = 5;
+            this.duration = duration;
+            position = start;
             switch (this.type)
             {
                 case 1:
                 case 2:
-                    if (des1.X <= des2.X)
+                    if (des.X >= 0)
                     {
-                        position = des1;
-                        destination1 = des1;
-                        destination2 = des2;
+                        destination1 = start;
+                        destination2 = start + des;
                     }
                     else
                     {
-                        position = des1;
-                        destination1 = des2;
-                        destination2 = des1;
+                        destination1 = start + des;
+                        destination2 = start;
                     }
-                    delta = destination2.X - destination1.X;
+                    delta = des.X;
 
                     break;
                 case 3:
                 case 4:
 
-                    if (des1.Y <= des2.Y)
+                    if (des.Y >= 0)
                     {
-                        position = des1;
-                        destination1 = des1;
-                        destination2 = des2;
-
+                        destination1 = start;
+                        destination2 = start + des;
                     }
                     else
                     {
-                        position = des1;
-                        destination1 = des2;
-                        destination2 = des1;
-
+                        destination1 = start + des;
+                        destination2 = start;
                     }
-                    delta = destination2.Y - destination1.Y;
+                    delta = des.Y;
                     break;
             }
 
@@ -111,6 +106,7 @@ namespace Game1
                     if (isPlayerOnMe)
                     {
                         game.player.position.X += delta * (float)gameTime.ElapsedGameTime.TotalSeconds * dir / duration;
+                        game.player.old_position.X += delta * (float)gameTime.ElapsedGameTime.TotalSeconds * dir / duration;
                     }
                     if (position.X > destination2.X || position.X < destination1.X)
                     {
@@ -123,6 +119,7 @@ namespace Game1
                     if (isPlayerOnMe)
                     {
                         game.player.position.Y += delta * (float)gameTime.ElapsedGameTime.TotalSeconds * dir / duration;
+                        game.player.old_position.Y += delta * (float)gameTime.ElapsedGameTime.TotalSeconds * dir / duration;
                     }
                     if (position.Y > destination2.Y || position.Y < destination1.Y)
                     {
@@ -135,6 +132,7 @@ namespace Game1
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Draw(currentblock, position, Color.White);
+            spriteBatch.Draw(Game1.blx, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),Color.GreenYellow);
         }
     }
 }

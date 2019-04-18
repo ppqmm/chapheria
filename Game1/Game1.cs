@@ -27,7 +27,7 @@ namespace Game1
         SpriteBatch spriteBatch;
 
         Texture2D start, end;
-
+        public static Texture2D blx;
         public static Texture2D bg1, bg2, bg3, b4;
         public static Texture2D glassBlock;
         public static Texture2D hex;
@@ -120,13 +120,18 @@ namespace Game1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+
+            blx = new Texture2D(GraphicsDevice, 1, 1);
+            blx.SetData(new[] { Color.White });
+
             bg1 = Content.Load<Texture2D>("bgstage1");
             bg2 = Content.Load<Texture2D>("bgstage2");
             font = Content.Load<SpriteFont>("default");
             charTexture = Content.Load<Texture2D>("splite1 (1)");
             hexTexture = Content.Load<Texture2D>("splite2 (1)");
             glassBlock = Content.Load<Texture2D>("object1");
-            clock = Content.Load<Texture2D>("object7");
+            clock = Content.Load<Texture2D>("timeblood_01");
             start = Content.Load<Texture2D>("bgMenu");
             end = Content.Load<Texture2D>("end");
             ui = Content.Load<Texture2D>("menu2");
@@ -505,6 +510,7 @@ namespace Game1
 
         public void GameOver()
         {
+            time = 3;
             gamestate = State.end;
         }
 
@@ -529,6 +535,10 @@ namespace Game1
                 case 3:
                     player.position = new Vector2(0, 1850);
                     break;
+                case 4:
+                    player.position = new Vector2(0, 270);
+                    break;
+
             }
 
             //------------------------- position camera ----------------------//
