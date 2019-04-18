@@ -265,14 +265,22 @@ namespace Game1
                     currentStage.Update(gameTime);
                     player.Update(gameTime, keyboard);
 
-                    time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
-
-                    if (time <= 0)
+                    switch (currentStage.stageNumber)
                     {
-                        time = 3;
-                        gamestate = State.end;
+                        case 1:
+                        case 2:
+                        case 3:
+                            time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
 
+                            if (time <= 0)
+                            {
+                                time = 3;
+                                gamestate = State.end;
+
+                            }
+                            break;
                     }
+
 
                     
                     //------------------------- camera -------------------------------------//
@@ -531,6 +539,7 @@ namespace Game1
 
             gamestate = State.pre;
             time = 3;
+            player.health = 5;
 
             //-------------------------------- position character -----------------------------//
 
