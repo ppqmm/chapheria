@@ -16,12 +16,31 @@ namespace Game1
             menu,
             tutorial,
             pre,
+            talk,
             play,
             tower,
             end
         };
 
         State gamestate;
+
+        public enum Scene
+        {
+            palace,
+            forest,
+            tower,
+        };
+
+        Scene scene;
+
+        public enum Character
+        {
+            prince,
+            princess,
+            knight
+        };
+
+        Character character;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -38,8 +57,19 @@ namespace Game1
         public static Texture2D hexTexture;
         public static Texture2D light;
         public static Texture2D blockBlood, blood;
+        public static Texture2D fire;
 
+        public static Texture2D bgForest;
+        public static Texture2D bgTower;
+        public static Texture2D bgPalace;
+        public static Texture2D prince;
+        public static Texture2D princess;
+        public static Texture2D knight;
+        public static Texture2D message;
+        public static Texture2D nextScreen;
+        public static Texture2D skip;
 
+        
         Texture2D clock;
         Texture2D ui;
         Texture2D bgHelp;
@@ -77,16 +107,30 @@ namespace Game1
         Rectangle tutorialRect = new Rectangle(0, 310, 250, 85);
         Rectangle exitRect = new Rectangle(0, 385, 250, 110);
         Rectangle backtomenu = new Rectangle(0, 0, 160, 130);
+        Rectangle nextRect = new Rectangle(740, 540, 36, 31);
+        Rectangle skipRect = new Rectangle(700, 5, 74, 71);
+
 
         bool isPlayClicked = false;
         bool isTutorialClicked = false;
         bool isExitClicked = false;
         bool isBackClicked = false;
+        bool isNextsceneClicked = false;
+        bool isSkipClicked = false;
 
 
         public Stage currentStage;
 
         public Player player;
+
+        int dialougeIndex;
+        string[] dialouge = new string[]
+        {
+            "ทดสอบ",
+            "ทดสอบ2",
+            "ทดสอบ3",
+            "ทดสอบ4"
+        };
 
         public Game1()
         {
@@ -101,6 +145,7 @@ namespace Game1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            
 
             base.Initialize();
             this.IsMouseVisible = true;
@@ -148,6 +193,7 @@ namespace Game1
             exit = Content.Load<Texture2D>("object3");
             blockBlood = Content.Load<Texture2D>("timeblood_02");
             blood = Content.Load<Texture2D>("timeblood_03");
+            fire = Content.Load<Texture2D>("fire3");
 
             towerbg = Content.Load<Texture2D>("bglevelup");
             tower = Content.Load<Texture2D>("levelup_02");
@@ -157,7 +203,18 @@ namespace Game1
             wood2 = Content.Load<Texture2D>("wood_02");
             wood3 = Content.Load<Texture2D>("wood_03");
             wood4 = Content.Load<Texture2D>("wood_04");
-            
+
+            bgPalace = Content.Load<Texture2D>("bgpalace");
+            bgForest = Content.Load<Texture2D>("bgforest");
+            bgTower = Content.Load<Texture2D>("bgtower");
+            prince = Content.Load<Texture2D>("princepng_01");
+            princess = Content.Load<Texture2D>("princess&knight_02");
+            knight = Content.Load<Texture2D>("princess&knight_01");
+            message = Content.Load<Texture2D>("message (1)_01");
+            nextScreen = Content.Load<Texture2D>("button_08");
+            skip = Content.Load<Texture2D>("button_01");
+
+
 
             screen = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
@@ -195,7 +252,10 @@ namespace Game1
 
                         if (mouse.LeftButton == ButtonState.Pressed)
                         {
-                            newStage(1);
+                            //newStage(4);
+                            scene = Scene.forest;
+                            character = Character.princess;
+                            gamestate = State.talk;
                         }
                     }
                     else
@@ -232,7 +292,6 @@ namespace Game1
                 case State.tutorial:
                     if (mouseRect.Intersects(backtomenu) == true)
                     {
-
                         if (mouse.LeftButton == ButtonState.Released && isBackClicked == true)
                         {
                             gamestate = State.menu;
@@ -247,6 +306,8 @@ namespace Game1
                             isBackClicked = false;
                         }
                     }
+                    
+
                     break;
                 case State.pre:
 
@@ -259,9 +320,57 @@ namespace Game1
                     }
 
                     break;
+
+                case State.talk:
+                    if(mouseRect.Intersects(nextRect) == true)
+                    {
+                        if (mouse.LeftButton == ButtonState.Released && isNextsceneClicked == true)
+                        {
+                            dialougeIndex++;
+
+                            switch (dialougeIndex)
+                            {
+                                case 1: character = Character.knight;
+                                    break;
+                                case 2:
+                                    character = Character.princess;
+                                    break;
+                            }
+
+                            if (dialougeIndex == dialouge.Length)
+                            {
+                                dialougeIndex = 0;
+                                newStage(1);
+                            }
+
+                        }
+                        if (mouse.LeftButton == ButtonState.Pressed)
+                        {
+                            isNextsceneClicked = true;
+                        }
+                        else
+                        {
+                            isNextsceneClicked = false;
+                        }
+                    }
+                    if(mouseRect.Intersects(skipRect) == true)
+                    {
+                        if(mouse.LeftButton == ButtonState.Released && isSkipClicked == true)
+                        {
+                            newStage(4);
+                        }
+                        if(mouse.LeftButton == ButtonState.Pressed)
+                        {
+                            isSkipClicked = true;
+                        }
+                        else
+                        {
+                            isSkipClicked = false;
+                        }
+                    }
+                    break;
+
                 case State.play:
-
-
                     currentStage.Update(gameTime);
                     player.Update(gameTime, keyboard);
 
@@ -280,9 +389,6 @@ namespace Game1
                             }
                             break;
                     }
-
-
-                    
                     //------------------------- camera -------------------------------------//
 
                     var screenPosition = Vector2.Zero;
@@ -359,15 +465,13 @@ namespace Game1
                         case 3:
                             flagPosition1.X += 100 * (float)gameTime.ElapsedGameTime.TotalSeconds / 4;
                             break;
-                        case 6:
+                        case 4:
                             flagPosition2.X += 100 * (float)gameTime.ElapsedGameTime.TotalSeconds / 4;
                             break;
-                        case 9:
+                        case 7:
                             flagPosition3.X += 100 * (float)gameTime.ElapsedGameTime.TotalSeconds / 4;
                             break;
                     }
-
-                    break;
 
                     break;
 
@@ -521,6 +625,47 @@ namespace Game1
                     spriteBatch.End();
                     break;
 
+                    //----------------------------- draw cut screen -------------------//
+                case State.talk:
+                    spriteBatch.Begin();
+                    switch (scene)
+                    {
+                        case Scene.palace:
+                            spriteBatch.Draw(bgPalace, new Vector2(0, 0), Color.White);
+                            break;
+                        case Scene.forest:
+                            spriteBatch.Draw(bgForest, new Vector2(0, 0), Color.White);
+                            break;
+                        case Scene.tower:
+                            spriteBatch.Draw(bgTower, new Vector2(0, 0), Color.White);
+                            break;
+
+                    }
+
+                    switch (character)
+                    {
+                        case Character.prince:
+                            spriteBatch.Draw(prince, new Vector2(0, 0), Color.White);
+                            break;
+                        case Character.princess:
+                            spriteBatch.Draw(princess, new Vector2(400, 5), Color.White);
+                            break;
+                        case Character.knight:
+                            spriteBatch.Draw(knight, new Vector2(0, 0), Color.White);
+                            break;
+                    }
+
+                    
+                    spriteBatch.Draw(message, new Vector2(100, 330), Color.White);
+
+                    spriteBatch.Draw(nextScreen, nextRect, Color.White);
+                    spriteBatch.Draw(skip, skipRect, Color.White);
+
+                    spriteBatch.DrawString(font, dialouge[dialougeIndex], new Vector2(200, 400), Color.Black);
+
+                    spriteBatch.End();
+                    break;
+
             }
 
             base.Draw(gameTime);
@@ -584,7 +729,7 @@ namespace Game1
         public void progressNextStage()
         {
 
-            if (currentStage.stageNumber == 3 || currentStage.stageNumber == 6 || currentStage.stageNumber == 9)
+            if (currentStage.stageNumber == 3 || currentStage.stageNumber == 4 || currentStage.stageNumber == 7)
             {
                 //
                 time = 4;
