@@ -83,7 +83,6 @@ namespace Game1
         Texture2D tower;
         Texture2D flag;
 
-
         //Vector2 position = new Vector2(0, 0);
 
         Vector2 flagPosition3 = new Vector2(440 - 100, 227);
@@ -107,7 +106,7 @@ namespace Game1
         Rectangle tutorialRect = new Rectangle(0, 310, 250, 85);
         Rectangle exitRect = new Rectangle(0, 385, 250, 110);
         Rectangle backtomenu = new Rectangle(0, 0, 160, 130);
-        Rectangle nextRect = new Rectangle(740, 540, 36, 31);
+        Rectangle nextRect = new Rectangle(650, 515, 36, 31);
         Rectangle skipRect = new Rectangle(700, 5, 74, 71);
 
 
@@ -123,13 +122,22 @@ namespace Game1
 
         public Player player;
 
+        int sceneNumber;
         int dialougeIndex;
         string[] dialouge = new string[]
         {
-            "ทดสอบ",
-            "ทดสอบ2",
-            "ทดสอบ3",
-            "ทดสอบ4"
+        };
+
+        string[] sc1_dialouge = new string[]
+        {
+            "ฟหกดฟหกดฟหกด",
+            "ดหกฟดฟหกดฟหกดฟหดกฟหดกห"
+        };
+
+        string[] sc2_dialouge = new string[]
+        {
+            "dfsddsfgsdfgds",
+            "asfdasdfasdf"
         };
 
         public Game1()
@@ -173,7 +181,7 @@ namespace Game1
             blx.SetData(new[] { Color.White });
 
             bg1 = Content.Load<Texture2D>("bgstage1");
-            bg2 = Content.Load<Texture2D>("bgstage2");
+            bg2 = Content.Load<Texture2D>("bgstage2 (1)");
             font = Content.Load<SpriteFont>("default");
             charTexture = Content.Load<Texture2D>("splite1 (1)");
             hexTexture = Content.Load<Texture2D>("splite2 (1)");
@@ -193,7 +201,7 @@ namespace Game1
             exit = Content.Load<Texture2D>("object3");
             blockBlood = Content.Load<Texture2D>("timeblood_02");
             blood = Content.Load<Texture2D>("timeblood_03");
-            fire = Content.Load<Texture2D>("fire3");
+            fire = Content.Load<Texture2D>("firefire");
 
             towerbg = Content.Load<Texture2D>("bglevelup");
             tower = Content.Load<Texture2D>("levelup_02");
@@ -253,8 +261,7 @@ namespace Game1
                         if (mouse.LeftButton == ButtonState.Pressed)
                         {
                             //newStage(4);
-                            scene = Scene.forest;
-                            character = Character.princess;
+                            sceneNumber = 0;
                             gamestate = State.talk;
                         }
                     }
@@ -322,25 +329,68 @@ namespace Game1
                     break;
 
                 case State.talk:
+
+                    switch (sceneNumber)
+                    {
+                        case 0:
+                            // start bg
+                            scene = Scene.palace;
+                            // start charecter
+                            character = Character.knight;
+                            // set dialogue
+                            dialouge = sc1_dialouge;
+                            Console.WriteLine(dialouge);
+                            break;
+                        case 1:
+                            // start bg
+                            scene = Scene.palace;
+                            // start charecter
+                            character = Character.knight;
+                            dialouge = sc2_dialouge;
+                            break;
+                    }
+
                     if(mouseRect.Intersects(nextRect) == true)
                     {
                         if (mouse.LeftButton == ButtonState.Released && isNextsceneClicked == true)
                         {
                             dialougeIndex++;
 
-                            switch (dialougeIndex)
+                            switch (sceneNumber)
                             {
-                                case 1: character = Character.knight;
+                                case 0:
+                                    switch (dialougeIndex)
+                                    {
+                                        case 1:
+                                            character = Character.knight;
+                                            break;
+                                        case 2:
+                                        case 3:
+                                        case 4:
+                                        case 5:
+                                        case 6:
+                                            character = Character.princess;
+                                            break;
+                                    }
                                     break;
-                                case 2:
-                                    character = Character.princess;
+                                case 1:
+                                    switch (dialougeIndex)
+                                    {
+                                        case 1:
+                                            character = Character.prince;
+                                            break;
+                                        case 2:
+                                            character = Character.knight;
+                                            break;
+                                    }
                                     break;
                             }
+
 
                             if (dialougeIndex == dialouge.Length)
                             {
                                 dialougeIndex = 0;
-                                newStage(1);
+                                endDialogue();
                             }
 
                         }
@@ -357,7 +407,7 @@ namespace Game1
                     {
                         if(mouse.LeftButton == ButtonState.Released && isSkipClicked == true)
                         {
-                            newStage(4);
+                            endDialogue();
                         }
                         if(mouse.LeftButton == ButtonState.Pressed)
                         {
@@ -489,6 +539,19 @@ namespace Game1
 
         }
 
+        void endDialogue()
+        {
+
+            switch (sceneNumber)
+            {
+                case 0:
+                    newStage(4);
+                    break;
+                case 1:
+                    newStage(1);
+                    break;
+            }
+        }
 
         protected override void Draw(GameTime gameTime)
         {
@@ -584,8 +647,8 @@ namespace Game1
 
                     float healthwidth = blood.Width * player.health/5f;
 
-                    spriteBatch.Draw(blood,new Rectangle(550, 40,(int)healthwidth, 30), new Rectangle(0, 0, (int)healthwidth, 30), Color.White);
-                    spriteBatch.Draw(blockBlood, new Vector2(500, 20), Color.White);
+                    spriteBatch.Draw(blood,new Rectangle(580, 40,(int)healthwidth, 30), new Rectangle(0, 0, (int)healthwidth, 30), Color.White);
+                    spriteBatch.Draw(blockBlood, new Vector2(530, 20), Color.White);
                     switch (currentStage.stageNumber)
                     {
                         case 1:
@@ -645,23 +708,27 @@ namespace Game1
                     switch (character)
                     {
                         case Character.prince:
-                            spriteBatch.Draw(prince, new Vector2(0, 0), Color.White);
+                            spriteBatch.Draw(prince, new Vector2(100, 50), Color.White);
                             break;
                         case Character.princess:
-                            spriteBatch.Draw(princess, new Vector2(400, 5), Color.White);
+                            spriteBatch.Draw(princess, new Vector2(350, 50), Color.White);
                             break;
                         case Character.knight:
-                            spriteBatch.Draw(knight, new Vector2(0, 0), Color.White);
+                            spriteBatch.Draw(knight, new Vector2(100, 50), Color.White);
                             break;
                     }
 
                     
-                    spriteBatch.Draw(message, new Vector2(100, 330), Color.White);
+                    spriteBatch.Draw(message, new Vector2(100, 300), Color.White);
 
                     spriteBatch.Draw(nextScreen, nextRect, Color.White);
                     spriteBatch.Draw(skip, skipRect, Color.White);
 
-                    spriteBatch.DrawString(font, dialouge[dialougeIndex], new Vector2(200, 400), Color.Black);
+                    if (dialouge.Length != 0)
+                    {
+                        spriteBatch.DrawString(font, dialouge[dialougeIndex], new Vector2(200, 400), Color.Black);
+
+                    }
 
                     spriteBatch.End();
                     break;

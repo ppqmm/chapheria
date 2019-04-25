@@ -931,7 +931,7 @@ namespace Game1
 
             //------------------- block start -------------------//
             //movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(0, 300), new Vector2(0, 0),1));
-            lavaList.Add(new Lava(game, new Vector2(100, 200)));
+            lavaList.Add(new Lava(game, new Vector2(50, 0)));
         }
 
         public void Update(GameTime gameTime)

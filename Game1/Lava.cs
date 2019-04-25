@@ -30,7 +30,7 @@ namespace Game1
             this.game = game;
             this.position = position;
 
-            maxframe = 5;
+            maxframe = 8;
             maxrow = 2;
 
 
@@ -48,7 +48,7 @@ namespace Game1
         }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Draw(Game1.fire, position, new Rectangle(frame * 141, row * 226, 141, 226), Color.White);
+            spriteBatch.Draw(Game1.fire, position, new Rectangle(frame * 199, row * 583, 199, 583), Color.White);
 
 
         }
