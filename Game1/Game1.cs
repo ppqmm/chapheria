@@ -69,7 +69,7 @@ namespace Game1
         public static Texture2D nextScreen;
         public static Texture2D skip;
 
-        
+
         Texture2D clock;
         Texture2D ui;
         Texture2D bgHelp;
@@ -78,7 +78,7 @@ namespace Game1
         Texture2D state1_1;
         Texture2D state1_2;
         Texture2D state1_3;
-        
+
         Texture2D towerbg;
         Texture2D tower;
         Texture2D flag;
@@ -153,7 +153,7 @@ namespace Game1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
+
 
             base.Initialize();
             this.IsMouseVisible = true;
@@ -313,7 +313,7 @@ namespace Game1
                             isBackClicked = false;
                         }
                     }
-                    
+
 
                     break;
                 case State.pre:
@@ -350,7 +350,7 @@ namespace Game1
                             break;
                     }
 
-                    if(mouseRect.Intersects(nextRect) == true)
+                    if (mouseRect.Intersects(nextRect) == true)
                     {
                         if (mouse.LeftButton == ButtonState.Released && isNextsceneClicked == true)
                         {
@@ -403,13 +403,13 @@ namespace Game1
                             isNextsceneClicked = false;
                         }
                     }
-                    if(mouseRect.Intersects(skipRect) == true)
+                    if (mouseRect.Intersects(skipRect) == true)
                     {
-                        if(mouse.LeftButton == ButtonState.Released && isSkipClicked == true)
+                        if (mouse.LeftButton == ButtonState.Released && isSkipClicked == true)
                         {
                             endDialogue();
                         }
-                        if(mouse.LeftButton == ButtonState.Pressed)
+                        if (mouse.LeftButton == ButtonState.Pressed)
                         {
                             isSkipClicked = true;
                         }
@@ -440,65 +440,66 @@ namespace Game1
                             break;
                     }
                     //------------------------- camera -------------------------------------//
-
-                    var screenPosition = Vector2.Zero;
-                    var worldPosition = Vector2.Zero;
-                    var offset = new Vector2(graphics.PreferredBackBufferWidth * 0.5f, graphics.PreferredBackBufferHeight * 0.5f);
-
-                    cam.ToScreen(ref player.position, out screenPosition);
-
-                    if (screenPosition.X < -graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
+                    if (!player.falling)
                     {
-                        var scr2world = Vector2.Zero;
-                        cam.ToWorld(ref screenPosition, out scr2world);
+                        var screenPosition = Vector2.Zero;
+                        var worldPosition = Vector2.Zero;
+                        var offset = new Vector2(graphics.PreferredBackBufferWidth * 0.5f, graphics.PreferredBackBufferHeight * 0.5f);
 
-                        var resultPosition = new Vector2(scr2world.X - -graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
+                        cam.ToScreen(ref player.position, out screenPosition);
 
-                        if (resultPosition.X - offset.X > 0)
+                        if (screenPosition.X < -graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
                         {
-                            cam.Position = resultPosition;
+                            var scr2world = Vector2.Zero;
+                            cam.ToWorld(ref screenPosition, out scr2world);
+
+                            var resultPosition = new Vector2(scr2world.X - -graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
+
+                            if (resultPosition.X - offset.X > 0)
+                            {
+                                cam.Position = resultPosition;
+                            }
+                        }
+
+                        if (screenPosition.Y < -graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
+                        {
+                            var scr2world = Vector2.Zero;
+                            cam.ToWorld(ref screenPosition, out scr2world);
+
+                            var resultPosition = new Vector2(cam.Position.X, scr2world.Y - -graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
+
+                            if (resultPosition.Y - offset.Y > 0)
+                            {
+                                cam.Position = resultPosition;
+                            }
+                        }
+
+                        if (screenPosition.X > graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
+                        {
+                            var scr2world = Vector2.Zero;
+                            cam.ToWorld(ref screenPosition, out scr2world);
+
+                            var resultPosition = new Vector2(scr2world.X - graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
+
+                            if (resultPosition.X + offset.X <= currentStage.block.GetLength(1) * 26)
+                            {
+                                cam.Position = resultPosition;
+                            }
+                        }
+
+                        if (screenPosition.Y > graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
+                        {
+                            var scr2world = Vector2.Zero;
+                            cam.ToWorld(ref screenPosition, out scr2world);
+
+                            var resultPosition = new Vector2(cam.Position.X, scr2world.Y - graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
+
+                            if (resultPosition.Y + offset.Y <= currentStage.block.GetLength(0) * 20 + 50)
+                            {
+                                cam.Position = resultPosition;
+                            }
                         }
                     }
-
-                    if (screenPosition.Y < -graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
-                    {
-                        var scr2world = Vector2.Zero;
-                        cam.ToWorld(ref screenPosition, out scr2world);
-
-                        var resultPosition = new Vector2(cam.Position.X, scr2world.Y - -graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
-
-                        if (resultPosition.Y - offset.Y > 0)
-                        {
-                            cam.Position = resultPosition;
-                        }
-                    }
-
-                    if (screenPosition.X > graphics.PreferredBackBufferWidth * 0.55f * 0.5f)
-                    {
-                        var scr2world = Vector2.Zero;
-                        cam.ToWorld(ref screenPosition, out scr2world);
-
-                        var resultPosition = new Vector2(scr2world.X - graphics.PreferredBackBufferWidth * 0.55f * 0.5f, cam.Position.Y);
-
-                        if (resultPosition.X + offset.X <= currentStage.block.GetLength(1) * 26)
-                        {
-                            cam.Position = resultPosition;
-                        }
-                    }
-
-                    if (screenPosition.Y > graphics.PreferredBackBufferHeight * 0.55f * 0.5f)
-                    {
-                        var scr2world = Vector2.Zero;
-                        cam.ToWorld(ref screenPosition, out scr2world);
-
-                        var resultPosition = new Vector2(cam.Position.X, scr2world.Y - graphics.PreferredBackBufferHeight * 0.55f * 0.5f);
-
-                        if (resultPosition.Y + offset.Y <= currentStage.block.GetLength(0) * 20 + 50)
-                        {
-                            cam.Position = resultPosition;
-                        }
-                    }
-
 
                     break;
 
@@ -645,9 +646,9 @@ namespace Game1
                     spriteBatch.Begin();
                     //spriteBatch.Draw(blood, new Vector2(550, 30), Color.White);
 
-                    float healthwidth = blood.Width * player.health/5f;
+                    float healthwidth = blood.Width * player.health / 5f;
 
-                    spriteBatch.Draw(blood,new Rectangle(580, 40,(int)healthwidth, 30), new Rectangle(0, 0, (int)healthwidth, 30), Color.White);
+                    spriteBatch.Draw(blood, new Rectangle(580, 40, (int)healthwidth, 30), new Rectangle(0, 0, (int)healthwidth, 30), Color.White);
                     spriteBatch.Draw(blockBlood, new Vector2(530, 20), Color.White);
                     switch (currentStage.stageNumber)
                     {
@@ -670,7 +671,7 @@ namespace Game1
                 case State.tower:
                     //------------------------------------- draw tower -----------------------------//
                     spriteBatch.Begin();
-                    spriteBatch.Draw(towerbg, new Vector2(0,0), Color.White);
+                    spriteBatch.Draw(towerbg, new Vector2(0, 0), Color.White);
                     spriteBatch.Draw(flag, flagPosition1, Color.White);
                     spriteBatch.Draw(flag, flagPosition2, Color.White);
                     spriteBatch.Draw(flag, flagPosition3, Color.White);
@@ -688,7 +689,7 @@ namespace Game1
                     spriteBatch.End();
                     break;
 
-                    //----------------------------- draw cut screen -------------------//
+                //----------------------------- draw cut screen -------------------//
                 case State.talk:
                     spriteBatch.Begin();
                     switch (scene)
@@ -718,7 +719,7 @@ namespace Game1
                             break;
                     }
 
-                    
+
                     spriteBatch.Draw(message, new Vector2(100, 300), Color.White);
 
                     spriteBatch.Draw(nextScreen, nextRect, Color.White);
@@ -747,7 +748,7 @@ namespace Game1
         void newStage(int stageNumber)
         {
 
-            currentStage = new Stage(this,stageNumber);
+            currentStage = new Stage(this, stageNumber);
 
             gamestate = State.pre;
             time = 3;

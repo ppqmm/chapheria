@@ -24,6 +24,8 @@ namespace Game1
 
         int row;
 
+        public Rectangle hitbox;
+
         public Lava(Game1 game, Vector2 position)
         {
 
@@ -33,6 +35,7 @@ namespace Game1
             maxframe = 8;
             maxrow = 2;
 
+            hitbox = new Rectangle((int)position.X + 40, (int)position.Y + 550, 50,50);
 
             framePerSec = 6;
             timePerFrame = (float)1 / framePerSec;
@@ -45,9 +48,43 @@ namespace Game1
         {
             UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
 
+            switch (frame + 8*row)
+            {
+                case 0:
+                case 1:
+                case 2:
+                    hitbox.Y = (int)position.Y + 550;
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    hitbox.X = (int)position.X + 40;
+                    hitbox.Y -= (int)((float)gameTime.ElapsedGameTime.TotalSeconds * 583f);
+                    break;
+                case 8:
+                case 9:
+                    hitbox.X = (int)position.X + 120;
+                    break;
+                case 10:
+                case 11:
+                    hitbox.Y += (int)((float)gameTime.ElapsedGameTime.TotalSeconds * 2f  * 583f);
+                    break;
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                    break;
+            }
+
+
         }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+
+            //spriteBatch.Draw(Game1.blx, new Rectangle((int)position.X, (int)position.Y, 199, 583), Color.White);
+            //spriteBatch.Draw(Game1.blx, hitbox, Color.Cyan);
             spriteBatch.Draw(Game1.fire, position, new Rectangle(frame * 199, row * 583, 199, 583), Color.White);
 
 

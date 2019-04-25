@@ -26,10 +26,12 @@ namespace Game1
         float delayTime;
 
         int blinkframe = 0;
-        
+
         int containIndex = 0;
 
         float falloutTime = 0;
+
+        public bool falling = false;
 
         protected enum Direction
         {
@@ -65,34 +67,36 @@ namespace Game1
             bool hit = false;
             bool walk = false;
 
-            if (keyboard.IsKeyDown(Keys.Left))
+            if (!falling)
             {
-                position.X = position.X - 6;
-                direction = Direction.left;
-                walk = true;
-            }
+                if (keyboard.IsKeyDown(Keys.Left))
+                {
+                    position.X = position.X - 6;
+                    direction = Direction.left;
+                    walk = true;
+                }
 
-            if (keyboard.IsKeyDown(Keys.Right))
-            {
-                position.X = position.X + 6;
-                direction = Direction.right;
-                walk = true;
-            }
+                if (keyboard.IsKeyDown(Keys.Right))
+                {
+                    position.X = position.X + 6;
+                    direction = Direction.right;
+                    walk = true;
+                }
 
-            if (keyboard.IsKeyDown(Keys.Up))
-            {
-                position.Y = position.Y - 6;
-                direction = Direction.up;
-                walk = true;
-            }
+                if (keyboard.IsKeyDown(Keys.Up))
+                {
+                    position.Y = position.Y - 6;
+                    direction = Direction.up;
+                    walk = true;
+                }
 
-            if (keyboard.IsKeyDown(Keys.Down))
-            {
-                position.Y = position.Y + 6;
-                direction = Direction.down;
-                walk = true;
+                if (keyboard.IsKeyDown(Keys.Down))
+                {
+                    position.Y = position.Y + 6;
+                    direction = Direction.down;
+                    walk = true;
+                }
             }
-
             Rectangle charRectangle;
 
             switch (game.currentStage.stageNumber)
@@ -131,72 +135,6 @@ namespace Game1
                 case 5:
                 case 6:
 
-                    /*
-                    bool isContain = false;
-                    //movingBlocksList
-                    for (int i = 0; i < game.currentStage.movingBlocksList.Count; i++)
-                    {
-                        //---------------------- collision -----------------------//
-                        Rectangle charRectangle = new Rectangle((int)position.X, (int)position.Y + (int)(size.Y) - 25, (int)size.X, 25);
-                        Rectangle movingRectangle = new Rectangle((int)game.currentStage.movingBlocksList[i].position.X, (int)game.currentStage.movingBlocksList[i].position.Y, (int)game.currentStage.movingBlocksList[i].size.X, (int)game.currentStage.movingBlocksList[i].size.Y);
-
-                        game.currentStage.movingBlocksList[i].isPlayerOnMe = false;
-
-                        if (movingRectangle.Contains(charRectangle))
-                        {
-                            isContain = true;
-                            containIndex = i;
-                            game.currentStage.movingBlocksList[i].isPlayerOnMe = true;
-                        }
-                    }
-
-                    if (!isContain)
-                    {
-                        bool isMovingNextStepX = false;
-                        for (int j = 0; j < game.currentStage.movingBlocksList.Count; j++)
-                        {
-                            if (containIndex != j && 
-                                position.X + size.X > game.currentStage.movingBlocksList[j].position.X && 
-                                position.X < game.currentStage.movingBlocksList[j].position.X + game.currentStage.movingBlocksList[j].size.X &&
-                                position.Y + size.Y - 25 >= game.currentStage.movingBlocksList[j].position.Y &&
-                                position.Y + size.Y <= game.currentStage.movingBlocksList[j].position.Y + game.currentStage.movingBlocksList[j].size.Y )
-                            {
-                                isMovingNextStepX = true;
-                            }
-                        }
-
-                        if (isMovingNextStepX)
-                        {
-                            old_position.X = position.X;
-                        }
-
-                        bool isMovingNextStepY = false;
-                        for (int j = 0; j < game.currentStage.movingBlocksList.Count; j++)
-                        {
-                            if (containIndex != j &&
-                                position.Y + size.Y > game.currentStage.movingBlocksList[j].position.Y &&
-                                position.Y + size.Y - 25 < game.currentStage.movingBlocksList[j].position.Y + game.currentStage.movingBlocksList[j].size.Y &&
-                                position.X >= game.currentStage.movingBlocksList[j].position.X &&
-                                position.X + size.X <= game.currentStage.movingBlocksList[j].position.X + game.currentStage.movingBlocksList[j].size.X)
-                            {
-                                Console.WriteLine("in");
-                                isMovingNextStepY = true;
-                            }
-                        }
-                        if (isMovingNextStepY)
-                        {
-                            position.X = old_position.X;
-                        }
-                        else
-                        {
-                            position = old_position;
-                            game.currentStage.movingBlocksList[containIndex].isPlayerOnMe = true;
-                        }
-                    }
-                    */
-
-                    //float xSizeMultiplier = 0.5f;
-
                     charRectangle = new Rectangle(
                         (int)position.X + (int)((size.X - 2) / 2),
                         (int)position.Y + (int)(size.Y) - 10,
@@ -230,11 +168,23 @@ namespace Game1
                         if (falloutTime <= 0)
                         {
                             //game.GameOver();
+                            falling = true;
                         }
                     }
                     else
                     {
                         falloutTime = 0.1f;
+                    }
+
+                    if (falling)
+                    {
+                        position.Y += 10;
+                        if(position.Y > 600)
+                        {
+                            game.GameOver();
+                            falling = false;
+                        }
+
                     }
 
                     //Rectangle charRectangle = new Rectangle()
@@ -250,6 +200,24 @@ namespace Game1
                 Rectangle witchRectangle = new Rectangle((int)game.currentStage.witchList[i].position.X, (int)game.currentStage.witchList[i].position.Y, (int)size.X, (int)size.Y);
 
                 if (charRectangle.Intersects(witchRectangle) && delayTime <= 0)
+                {
+                    blinkframe = 0;
+                    health -= 1;
+                    delayTime = 5;
+                    if (health <= 0)
+                    {
+                        game.GameOver();
+                    }
+                }
+            }
+            // check witch
+            for (int i = 0; i < game.currentStage.lavaList.Count; i++)
+            {
+                //---------------------- collision -----------------------//
+                charRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                //Rectangle witchRectangle = new Rectangle((int)game.currentStage.witchList[i].position.X, (int)game.currentStage.witchList[i].position.Y, (int)size.X, (int)size.Y);
+
+                if (charRectangle.Intersects(game.currentStage.lavaList[i].hitbox) && delayTime <= 0)
                 {
                     blinkframe = 0;
                     health -= 1;
