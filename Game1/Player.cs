@@ -104,9 +104,9 @@ namespace Game1
                 case 1:
                 case 2:
                 case 3:
+                case 5:
+                case 6:
                 case 7:
-                case 8:
-                case 9:
 
                     for (int i = 0; i < game.currentStage.grassList.Count; i++)
                     {
@@ -132,15 +132,10 @@ namespace Game1
                     }
                     break;
                 case 4:
-                case 5:
-                case 6:
 
                     charRectangle = new Rectangle(
                         (int)position.X + (int)((size.X - 2) / 2),
-                        (int)position.Y + (int)(size.Y) - 10,
-                        2,
-                        2
-                        );
+                        (int)position.Y + (int)(size.Y) - 10,2,2);
 
                     var isOnBlock = false;
 
@@ -156,6 +151,7 @@ namespace Game1
                             containIndex = i;
                             movingBlock.isPlayerOnMe = true;
                             isOnBlock = true;
+                            
                         }
 
                     }
@@ -181,7 +177,8 @@ namespace Game1
                         position.Y += 10;
                         if(position.Y > 600)
                         {
-                            game.GameOver();
+                            //game.GameOver();
+                            position = game.currentStage.movingBlocksList[containIndex].position;
                             falling = false;
                         }
 

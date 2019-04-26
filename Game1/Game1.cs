@@ -47,7 +47,7 @@ namespace Game1
 
         Texture2D start, end;
         public static Texture2D blx;
-        public static Texture2D bg1, bg2, bg3, b4;
+        public static Texture2D bg1, bg2, bg3;
         public static Texture2D glassBlock;
         public static Texture2D hex;
         public static Texture2D wood1, wood2, wood3, wood4;
@@ -58,6 +58,8 @@ namespace Game1
         public static Texture2D light;
         public static Texture2D blockBlood, blood;
         public static Texture2D fire;
+        public static Texture2D miniBlock;
+        public static Texture2D rock1, rock2, rock3;
 
         public static Texture2D bgForest;
         public static Texture2D bgTower;
@@ -182,6 +184,7 @@ namespace Game1
 
             bg1 = Content.Load<Texture2D>("bgstage1");
             bg2 = Content.Load<Texture2D>("bgstage2 (1)");
+            bg3 = Content.Load<Texture2D>("bgstage3");
             font = Content.Load<SpriteFont>("default");
             charTexture = Content.Load<Texture2D>("splite1 (1)");
             hexTexture = Content.Load<Texture2D>("splite2 (1)");
@@ -221,6 +224,11 @@ namespace Game1
             message = Content.Load<Texture2D>("message (1)_01");
             nextScreen = Content.Load<Texture2D>("button_08");
             skip = Content.Load<Texture2D>("button_01");
+
+            miniBlock = Content.Load<Texture2D>("object4");
+            rock1 = Content.Load<Texture2D>("object5 (2)");
+            rock2 = Content.Load<Texture2D>("object5");
+            rock3 = Content.Load<Texture2D>("object6");
 
 
 
@@ -769,6 +777,9 @@ namespace Game1
                     break;
                 case 4:
                     player.position = new Vector2(0, 270);
+                    break;
+                case 5:
+                    player.position = new Vector2(50, 270);
                     break;
 
             }
