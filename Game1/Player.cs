@@ -21,6 +21,7 @@ namespace Game1
         protected float timePerFrame;
         protected int framePerSec;
 
+        public int healthy;
         public int health;
 
         float delayTime;
@@ -46,8 +47,7 @@ namespace Game1
         public Player(Game1 game)
         {
             this.game = game;
-
-            health = 5;
+            
 
             size = new Vector2(66, 100);
 

@@ -80,6 +80,10 @@ namespace Game1
         Texture2D state1_1;
         Texture2D state1_2;
         Texture2D state1_3;
+        Texture2D state2;
+        Texture2D state3;
+        Texture2D state3_1;
+        Texture2D state3_2;
 
         Texture2D towerbg;
         Texture2D tower;
@@ -200,6 +204,8 @@ namespace Game1
             state1_1 = Content.Load<Texture2D>("font1");
             state1_2 = Content.Load<Texture2D>("font2");
             state1_3 = Content.Load<Texture2D>("font3");
+            state3 = Content.Load<Texture2D>("font5");
+            state3_2 = Content.Load<Texture2D>("font6");
             enter = Content.Load<Texture2D>("object2 (2)");
             exit = Content.Load<Texture2D>("object3");
             blockBlood = Content.Load<Texture2D>("timeblood_02");
@@ -635,10 +641,17 @@ namespace Game1
                         case 4:
                             spriteBatch.Draw(state1_3, new Rectangle(180, 200, 440, 650), new Rectangle(200, 300, 450, 650), Color.White);
                             break;
+                        case 5:
+                            spriteBatch.Draw(state3, new Rectangle(180, 150, 400, 300), new Rectangle(200, 0, 400, 300), Color.White);
+                            break;
+                        case 6:
+                            spriteBatch.Draw(state3, new Rectangle(180, 200, 440, 650), new Rectangle(200, 300, 440, 650), Color.White);
+                            break;
+                        case 7:
+                            spriteBatch.Draw(state3_2, new Rectangle(180, 150, 450, 300), new Rectangle(200, 0, 450, 300), Color.White);
+                            break;
 
                     }
-
-                    //spriteBatch.DrawString(font, "stage " + currentStage.stageNumber, new Vector2(100, 31), Color.White);
 
                     spriteBatch.End();
 
@@ -652,9 +665,8 @@ namespace Game1
 
                     //---------------------------------- draw time ----------------------------//
                     spriteBatch.Begin();
-                    //spriteBatch.Draw(blood, new Vector2(550, 30), Color.White);
 
-                    float healthwidth = blood.Width * player.health / 5f;
+                    float healthwidth = blood.Width * ((float)player.health / (float)player.healthy);
 
                     spriteBatch.Draw(blood, new Rectangle(580, 40, (int)healthwidth, 30), new Rectangle(0, 0, (int)healthwidth, 30), Color.White);
                     spriteBatch.Draw(blockBlood, new Vector2(530, 20), Color.White);
@@ -665,9 +677,6 @@ namespace Game1
                         case 3:
                             spriteBatch.Draw(clock, new Rectangle(10, 5, 192, 88), Color.White);
                             spriteBatch.DrawString(font, time.ToString("0"), new Vector2(110, 40), Color.Black);
-
-
-                            //spriteBatch.DrawString(font, player.health.ToString("0"), new Vector2(400, 40), Color.White);
 
                             break;
                     }
@@ -760,30 +769,43 @@ namespace Game1
 
             gamestate = State.pre;
             time = 3;
-            player.health = 5;
+            //player.health = 5;
 
-            //-------------------------------- position character -----------------------------//
+            //-------------------------------- position character and healthy -----------------------------//
 
             switch (stageNumber)
             {
                 case 1:
+                    player.healthy = 5;
                     player.position = new Vector2(0, 1650);
                     break;
                 case 2:
+                    player.healthy = 5;
                     player.position = new Vector2(0, 230);
                     break;
                 case 3:
+                    player.healthy = 5;
                     player.position = new Vector2(0, 1850);
                     break;
                 case 4:
+                    player.healthy = 20;
                     player.position = new Vector2(0, 270);
                     break;
                 case 5:
-                    player.position = new Vector2(50, 270);
+                    player.healthy = 5;
+                    player.position = new Vector2(0, 1670);
+                    break;
+                case 6:
+                    player.healthy = 5;
+                    player.position = new Vector2(930, 1910);
+                    break;
+                case 7:
+                    player.healthy = 5;
+                    player.position = new Vector2(0, 50);
                     break;
 
             }
-
+            player.health = player.healthy;
             //------------------------- position camera ----------------------//
             cam.Position = player.position;
 
