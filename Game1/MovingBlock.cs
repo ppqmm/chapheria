@@ -132,7 +132,7 @@ namespace Game1
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Draw(currentblock, position, Color.White);
-            spriteBatch.Draw(Game1.blx, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),Color.GreenYellow);
+            //spriteBatch.Draw(Game1.blx, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),Color.GreenYellow);
         }
     }
 }

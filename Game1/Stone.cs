@@ -84,7 +84,7 @@ namespace Game1
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 
-            spriteBatch.Draw(Game1.blx,new Rectangle((int)position.X, (int)position.Y,50,50),Color.Magenta);
+            //spriteBatch.Draw(Game1.blx,new Rectangle((int)position.X, (int)position.Y,50,50),Color.Magenta);
 
             spriteBatch.Draw(Game1.stone, position - new Vector2(20,15),new Rectangle(frame*100,0,100,81),Color.White);
             
