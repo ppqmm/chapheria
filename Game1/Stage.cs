@@ -29,6 +29,8 @@ namespace Game1
 
         public List<Lava> lavaList = new List<Lava>();
 
+        public List<Stone> stoneList = new List<Stone>();
+
         public int[,] block;
 
         Game1 game;
@@ -82,14 +84,14 @@ namespace Game1
                     break;
                 case 6:
                     setupStage6();
-                    enterPosition = new Vector2(930,1940);
+                    enterPosition = new Vector2(930, 1940);
                     exitPosition = new Vector2(0, 70);
                     currentbg = Game1.bg3;
                     currentblock = Game1.miniBlock;
                     break;
                 case 7:
                     setupStage7();
-                    enterPosition = new Vector2(0,70);
+                    enterPosition = new Vector2(0, 70);
                     exitPosition = new Vector2(900, 770);
                     currentbg = Game1.bg3;
                     currentblock = Game1.miniBlock;
@@ -1100,7 +1102,7 @@ namespace Game1
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
             };
-            
+            stoneList.Add(new Stone(game, 1, new Vector2(240 , 200), 50));
         }
 
         void setupStage6()
@@ -1212,7 +1214,7 @@ namespace Game1
 
         void setupStage7()
         {
-                block = new int[,] {
+            block = new int[,] {
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
@@ -1333,6 +1335,11 @@ namespace Game1
             {
                 lavaList[i].Update(gameTime);
             }
+
+            for (int i = 0; i < stoneList.Count; i++)
+            {
+                stoneList[i].Update(gameTime);
+            }
         }
 
 
@@ -1368,6 +1375,11 @@ namespace Game1
             for (int i = 0; i < lavaList.Count; i++)
             {
                 lavaList[i].Draw(spriteBatch, gameTime);
+            }
+
+            for (int i = 0; i < stoneList.Count; i++)
+            {
+                stoneList[i].Draw(spriteBatch, gameTime);
             }
 
             spriteBatch.Draw(Game1.enter, enterPosition, Color.White);

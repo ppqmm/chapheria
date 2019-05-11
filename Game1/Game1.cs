@@ -59,7 +59,7 @@ namespace Game1
         public static Texture2D blockBlood, blood;
         public static Texture2D fire;
         public static Texture2D miniBlock;
-        public static Texture2D rock1, rock2, rock3;
+        public static Texture2D stone;
 
         public static Texture2D bgForest;
         public static Texture2D bgTower;
@@ -232,12 +232,9 @@ namespace Game1
             skip = Content.Load<Texture2D>("button_01");
 
             miniBlock = Content.Load<Texture2D>("object4");
-            rock1 = Content.Load<Texture2D>("object5 (2)");
-            rock2 = Content.Load<Texture2D>("object5");
-            rock3 = Content.Load<Texture2D>("object6");
-
-
-
+            stone = Content.Load<Texture2D>("stone1");
+            
+            
             screen = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
             // TODO: use this.Content to load your game content here
@@ -560,7 +557,7 @@ namespace Game1
             switch (sceneNumber)
             {
                 case 0:
-                    newStage(4);
+                    newStage(5);
                     break;
                 case 1:
                     newStage(1);

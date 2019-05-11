@@ -207,7 +207,7 @@ namespace Game1
                     }
                 }
             }
-            // check witch
+            // check Lava
             for (int i = 0; i < game.currentStage.lavaList.Count; i++)
             {
                 //---------------------- collision -----------------------//
@@ -215,6 +215,24 @@ namespace Game1
                 //Rectangle witchRectangle = new Rectangle((int)game.currentStage.witchList[i].position.X, (int)game.currentStage.witchList[i].position.Y, (int)size.X, (int)size.Y);
 
                 if (charRectangle.Intersects(game.currentStage.lavaList[i].hitbox) && delayTime <= 0)
+                {
+                    blinkframe = 0;
+                    health -= 1;
+                    delayTime = 5;
+                    if (health <= 0)
+                    {
+                        game.GameOver();
+                    }
+                }
+            }
+
+            for (int i = 0; i < game.currentStage.stoneList.Count; i++)
+            {
+                //---------------------- collision -----------------------//
+                charRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                Rectangle stoneRectangle = new Rectangle((int)game.currentStage.stoneList[i].position.X, (int)game.currentStage.stoneList[i].position.Y, (int)size.X, (int)size.Y);
+
+                if (charRectangle.Intersects(stoneRectangle) && delayTime <= 0)
                 {
                     blinkframe = 0;
                     health -= 1;
