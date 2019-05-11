@@ -18,7 +18,7 @@ namespace Game1
         public List<Vector2> exitList = new List<Vector2>();
 
         Vector2 enterPosition;
-        Vector2 exitPosition;
+        public Vector2 exitPosition;
 
         Texture2D currentbg;
         Texture2D currentblock;
@@ -46,7 +46,7 @@ namespace Game1
             {
                 case 1:
                     setupStage1();
-                    witchList.Add(new Witch(game));
+                    witchList.Add(new Witch(game,1));
                     enterPosition = new Vector2(0, 1680);
                     exitPosition = new Vector2(1970, 620);
                     currentbg = Game1.bg1;
@@ -54,7 +54,7 @@ namespace Game1
                     break;
                 case 2:
                     setupStage2();
-                    witchList.Add(new Witch(game));
+                    witchList.Add(new Witch(game,1));
                     enterPosition = new Vector2(0, 250);
                     exitPosition = new Vector2(1970, 1420);
                     currentbg = Game1.bg1;
@@ -62,7 +62,7 @@ namespace Game1
                     break;
                 case 3:
                     setupStage3();
-                    witchList.Add(new Witch(game));
+                    witchList.Add(new Witch(game,1));
                     enterPosition = new Vector2(0, 1880);
                     exitPosition = new Vector2(1970, 1650);
                     currentbg = Game1.bg1;
@@ -77,6 +77,7 @@ namespace Game1
                     break;
                 case 5:
                     setupStage5();
+                    witchList.Add(new Witch(game, 2));
                     enterPosition = new Vector2(0, 1700);
                     exitPosition = new Vector2(1880, 100);
                     currentbg = Game1.bg3;
@@ -84,6 +85,7 @@ namespace Game1
                     break;
                 case 6:
                     setupStage6();
+                    witchList.Add(new Witch(game, 2));
                     enterPosition = new Vector2(930, 1940);
                     exitPosition = new Vector2(0, 70);
                     currentbg = Game1.bg3;
@@ -91,6 +93,7 @@ namespace Game1
                     break;
                 case 7:
                     setupStage7();
+                    witchList.Add(new Witch(game, 2));
                     enterPosition = new Vector2(0, 70);
                     exitPosition = new Vector2(900, 770);
                     currentbg = Game1.bg3;
@@ -988,14 +991,14 @@ namespace Game1
             movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(0, 300), new Vector2(0, 0), 1));
 
             //------------------------- Lava -------------------------//
-            lavaList.Add(new Lava(game, new Vector2(100, 0)));
-            lavaList.Add(new Lava(game, new Vector2(700, 0)));
-            lavaList.Add(new Lava(game, new Vector2(1400, 0)));
-            lavaList.Add(new Lava(game, new Vector2(2100, 0)));
-            lavaList.Add(new Lava(game, new Vector2(2800, 0)));
-            lavaList.Add(new Lava(game, new Vector2(3500, 0)));
-            lavaList.Add(new Lava(game, new Vector2(4200, 0)));
-            lavaList.Add(new Lava(game, new Vector2(4900, 0)));
+            //lavaList.Add(new Lava(game, new Vector2(100, 0)));
+            //lavaList.Add(new Lava(game, new Vector2(700, 0)));
+            //lavaList.Add(new Lava(game, new Vector2(1400, 0)));
+            //lavaList.Add(new Lava(game, new Vector2(2100, 0)));
+            //lavaList.Add(new Lava(game, new Vector2(2800, 0)));
+            //lavaList.Add(new Lava(game, new Vector2(3500, 0)));
+            //lavaList.Add(new Lava(game, new Vector2(4200, 0)));
+            //lavaList.Add(new Lava(game, new Vector2(4900, 0)));
             #endregion
         }
         void setupStage5()
@@ -1346,9 +1349,9 @@ namespace Game1
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     spriteBatch.Draw(currentbg, new Vector2(800 * i, 600 * j), Color.White);
                 }

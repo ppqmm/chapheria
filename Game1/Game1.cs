@@ -29,6 +29,7 @@ namespace Game1
             palace,
             forest,
             tower,
+            intower,
         };
 
         Scene scene;
@@ -55,6 +56,7 @@ namespace Game1
         public static Texture2D exit;
         public static Texture2D charTexture;
         public static Texture2D hexTexture;
+        public static Texture2D ghostTexture;
         public static Texture2D light;
         public static Texture2D blockBlood, blood;
         public static Texture2D fire;
@@ -64,6 +66,7 @@ namespace Game1
         public static Texture2D bgForest;
         public static Texture2D bgTower;
         public static Texture2D bgPalace;
+        public static Texture2D bgIntower;
         public static Texture2D prince;
         public static Texture2D princess;
         public static Texture2D knight;
@@ -80,7 +83,6 @@ namespace Game1
         Texture2D state1_1;
         Texture2D state1_2;
         Texture2D state1_3;
-        Texture2D state2;
         Texture2D state3;
         Texture2D state3_1;
         Texture2D state3_2;
@@ -136,14 +138,25 @@ namespace Game1
 
         string[] sc1_dialouge = new string[]
         {
-            "ฟหกดฟหกดฟหกด",
-            "ดหกฟดฟหกดฟหกดฟหดกฟหดกห"
+            "ขออภัยที่ขัดจังหวะครับองค์หญิง\nมีสารด่วนจากอาณาจักรมนุษย์มาขอรับ\nเกี่ยวกับเรื่องขององค์ชายฟูเดียส",
+            "เกิดอะไรขึ้นกับฟูเดียส เจ้ารีบอ่านให้เราฟังเดี๋ยวนี้",
+            "ในสารเขียนว่า\nองค์ชายถูกจับตัวไปที่หอคอยต้องสาปในป่าลึกลับขอรับ",
+            "เกิดเรื่องแบบนี้ขึ้นกับคู่หมั้นของเราได้อย่างไรกัน\nเจ้ารีบพาเราไปที่นั่นเดี๋ยวนี้",
+            "อีกนานเท่าไหร่กว่าจะถึงจดหมาย\nถ้าพวกเจ้ายังช้าอยู่แบบนี้แล้ว\nเมื่อไหร่จะถึงป่าแดนมนุษย์กัน",
+            "อีกไม่นานแล้วขอรับองค์หญิง\nข้าจะเร่งม้าให้เร็วกว่านี้ขอรับ",
+            "ถึงจุดหมายแล้วขอรับ นี่แหละขอรับหอคอยต้องสาป\nที่องค์ชายถูกจับตัวมา",
+            "ที่นี่เองเหรอที่ฟูเดียสถูกจับตัวมา\nพวกเจ้ารอกำลังเสริมอยู่ที่นี่\nเราจะเข้าไปช่วยฟูเดียสก่อน",
+            "รอกำลังเสริมจากแดนมนุษย์ก่อนดีกว่าขอรับ\nองค์หญิง ท่านจะเข้าไปคนเดียวได้ยังไง",
+            "เรานำอาวุธติดตัวมาด้วยแล้วพวกเจ้าไม่ต้องห่วง\nเราจะเข้าไปก่อนเอง พวกเจ้ารอกำลังเสริมอยู่ที่นี่\nแล้วค่อยตามข้าเข้าไป!!!"
         };
 
         string[] sc2_dialouge = new string[]
         {
-            "dfsddsfgsdfgds",
-            "asfdasdfasdf"
+            "เจ้ามาที่นี่ได้ยังไงคาฟีเรีย\nที่นี่อันตรายขนาดนี้ เจ้าเป็นอย่างไรบ้าง",
+            "เราได้รับสารจากอาณาจักรมนุษย์ พอเรารู้ข่าวเราจึงรีบเดินทาง\nเพื่อมาหาเจ้า",
+            "ขอบใจเจ้ามาจริงๆ ถ้าไม่มีเจ้าข้าคงต้องติดอยู่ที่นี่\nไปจนตายแน่ๆ",
+            "เจ้าไม่ต้องกังวล เราฝ่าทุกอุปสรรคเพื่อมาหาเจ้า\nไปเถอะออกไปจากที่นี่กัน",
+            "เห็นเจ้าปลอดภัยแบบนี้ข้าก็ดีใจมากแล้ว"
         };
 
         public Game1()
@@ -192,6 +205,7 @@ namespace Game1
             font = Content.Load<SpriteFont>("default");
             charTexture = Content.Load<Texture2D>("splite1 (1)");
             hexTexture = Content.Load<Texture2D>("splite2 (1)");
+            ghostTexture = Content.Load<Texture2D>("splite3");
             glassBlock = Content.Load<Texture2D>("object1");
             clock = Content.Load<Texture2D>("timeblood_01");
             start = Content.Load<Texture2D>("bgMenu");
@@ -224,6 +238,7 @@ namespace Game1
             bgPalace = Content.Load<Texture2D>("bgpalace");
             bgForest = Content.Load<Texture2D>("bgforest");
             bgTower = Content.Load<Texture2D>("bgtower");
+            bgIntower = Content.Load<Texture2D>("bgintower");
             prince = Content.Load<Texture2D>("princepng_01");
             princess = Content.Load<Texture2D>("princess&knight_02");
             knight = Content.Load<Texture2D>("princess&knight_01");
@@ -233,8 +248,8 @@ namespace Game1
 
             miniBlock = Content.Load<Texture2D>("object4");
             stone = Content.Load<Texture2D>("stone1");
-            
-            
+
+
             screen = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
             // TODO: use this.Content to load your game content here
@@ -344,20 +359,69 @@ namespace Game1
                     switch (sceneNumber)
                     {
                         case 0:
-                            // start bg
-                            scene = Scene.palace;
-                            // start charecter
-                            character = Character.knight;
                             // set dialogue
                             dialouge = sc1_dialouge;
-                            Console.WriteLine(dialouge);
+                            switch (dialougeIndex)
+                            {
+                                case 0:
+                                    character = Character.knight;
+                                    scene = Scene.palace;
+                                    break;
+                                case 1:
+                                    character = Character.princess;
+                                    break;
+                                case 2:
+                                    character = Character.knight;
+                                    break;
+                                case 3:
+                                    character = Character.princess;
+                                    break;
+                                case 4:
+                                    character = Character.princess;
+                                    scene = Scene.forest;
+                                    break;
+                                case 5:
+                                    character = Character.knight;
+                                    break;
+                                case 6:
+                                    character = Character.knight;
+                                    scene = Scene.tower;
+                                    break;
+                                case 7:
+                                    character = Character.princess;
+                                    break;
+                                case 8:
+                                    character = Character.knight;
+                                    break;
+                                case 9:
+                                    character = Character.princess;
+                                    break;
+
+                            }
                             break;
                         case 1:
                             // start bg
-                            scene = Scene.palace;
-                            // start charecter
-                            character = Character.knight;
                             dialouge = sc2_dialouge;
+                            switch (dialougeIndex)
+                            {
+                                case 0:
+                                    character = Character.prince;
+                                    scene = Scene.intower;
+                                    break;
+                                case 1:
+                                    character = Character.princess;
+                                    break;
+                                case 2:
+                                    character = Character.prince;
+                                    break;
+                                case 3:
+                                    character = Character.princess;
+                                    break;
+                                case 4:
+                                    character = Character.prince;
+                                    break;
+                                
+                            }
                             break;
                     }
 
@@ -366,36 +430,6 @@ namespace Game1
                         if (mouse.LeftButton == ButtonState.Released && isNextsceneClicked == true)
                         {
                             dialougeIndex++;
-
-                            switch (sceneNumber)
-                            {
-                                case 0:
-                                    switch (dialougeIndex)
-                                    {
-                                        case 1:
-                                            character = Character.knight;
-                                            break;
-                                        case 2:
-                                        case 3:
-                                        case 4:
-                                        case 5:
-                                        case 6:
-                                            character = Character.princess;
-                                            break;
-                                    }
-                                    break;
-                                case 1:
-                                    switch (dialougeIndex)
-                                    {
-                                        case 1:
-                                            character = Character.prince;
-                                            break;
-                                        case 2:
-                                            character = Character.knight;
-                                            break;
-                                    }
-                                    break;
-                            }
 
 
                             if (dialougeIndex == dialouge.Length)
@@ -519,7 +553,18 @@ namespace Game1
                     time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
                     if (time <= 0)
                     {
-                        newStage(currentStage.stageNumber + 1);
+                        if (currentStage.stageNumber<7)
+                        {
+
+                            newStage(currentStage.stageNumber + 1);
+                        }
+                        else
+                        {
+
+                            sceneNumber = 1;
+                            gamestate = State.talk;
+
+                        }
                     }
 
                     switch (currentStage.stageNumber)
@@ -539,6 +584,7 @@ namespace Game1
 
                 case State.end:
                     time -= (float)gameTime.ElapsedGameTime.TotalSeconds; //ตัวที่จะทำให้ + หรือ - ค่าเวลา
+
                     if (time <= 0)
                     {
                         gamestate = State.menu;
@@ -560,7 +606,7 @@ namespace Game1
                     newStage(5);
                     break;
                 case 1:
-                    newStage(1);
+                    gamestate = State.menu;
                     break;
             }
         }
@@ -717,6 +763,9 @@ namespace Game1
                         case Scene.tower:
                             spriteBatch.Draw(bgTower, new Vector2(0, 0), Color.White);
                             break;
+                        case Scene.intower:
+                            spriteBatch.Draw(bgIntower, new Vector2(0, 0), Color.White);
+                            break;
 
                     }
 
@@ -726,10 +775,10 @@ namespace Game1
                             spriteBatch.Draw(prince, new Vector2(100, 50), Color.White);
                             break;
                         case Character.princess:
-                            spriteBatch.Draw(princess, new Vector2(350, 50), Color.White);
+                            spriteBatch.Draw(princess, new Vector2(250, 50), Color.White);
                             break;
                         case Character.knight:
-                            spriteBatch.Draw(knight, new Vector2(100, 50), Color.White);
+                            spriteBatch.Draw(knight, new Vector2(70, 50), Color.White);
                             break;
                     }
 
@@ -738,6 +787,26 @@ namespace Game1
 
                     spriteBatch.Draw(nextScreen, nextRect, Color.White);
                     spriteBatch.Draw(skip, skipRect, Color.White);
+
+                    string name = "";
+
+                    switch (character)
+                    {
+                        case Character.prince:
+                            name = "Fudius";
+                            break;
+                        case Character.princess:
+                            name = "Chapheria";
+                            break;
+                        case Character.knight:
+                            name = "Knight";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    // ddraw name
+                    spriteBatch.DrawString(font, name, new Vector2(150, 315), Color.Brown);
 
                     if (dialouge.Length != 0)
                     {

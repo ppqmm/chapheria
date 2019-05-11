@@ -17,11 +17,21 @@ namespace Game1
 
         Vector2 old_position;
 
-        public Witch(Game1 game) : base(game)
+        Texture2D texture;
+
+        public Witch(Game1 game,int type) : base(game)
         {
             delay = 1f/60f * 2;
             time = delay;
             old_position = position;
+            if (type == 1)
+            {                
+            texture = Game1.hexTexture;
+            }
+            if (type == 2)
+            {
+                texture = Game1.ghostTexture;
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -75,7 +85,7 @@ namespace Game1
             {
                 var rect = new Rectangle(frame * (int)size.X, (int)((int)direction + i * slice), (int)size.X, (int)slice);
                 float displaceX = (float)Math.Sin((gameTime.TotalGameTime.TotalSeconds / gameTime.ElapsedGameTime.TotalSeconds) + i);
-                spriteBatch.Draw(Game1.hexTexture, new Vector2(position.X + displaceX * 3, position.Y + i * slice), rect, Color.White * 0.5f);
+                spriteBatch.Draw(texture, new Vector2(position.X + displaceX * 3, position.Y + i * slice), rect, Color.White * 0.5f);
             }
 
         }

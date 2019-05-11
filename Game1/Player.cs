@@ -155,7 +155,12 @@ namespace Game1
                         }
 
                     }
-
+                    if (!isOnBlock)
+                    {
+                        game.currentStage.movingBlocksList[containIndex].isPlayerOnMe = true;
+                        position = old_position;
+                    }
+                    /*
                     if (!isOnBlock)
                     {
                         game.currentStage.movingBlocksList[containIndex].isPlayerOnMe = true;
@@ -183,7 +188,7 @@ namespace Game1
                         }
 
                     }
-
+                    */
                     //Rectangle charRectangle = new Rectangle()
 
                     break;
@@ -251,6 +256,15 @@ namespace Game1
             }
 
             // check exit
+            charRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+            Rectangle exitBlockRectangle2 = new Rectangle((int)game.currentStage.exitPosition.X, (int)game.currentStage.exitPosition.Y, Game1.exit.Width, Game1.exit.Height);
+
+            if (charRectangle.Intersects(exitBlockRectangle2))
+            {
+                game.progressNextStage();
+            }
+
+
             for (int i = 0; i < game.currentStage.exitList.Count; i++)
             {
                 //---------------------- collision -----------------------//
