@@ -941,41 +941,41 @@ namespace Game1
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
         };
             #region
-            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(120, 330), new Vector2(380, 0), 2));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(600, 500), new Vector2(0, -260), 2));
-            movingBlocksList.Add(new MovingBlock(game, 4, new Vector2(1000, 200), new Vector2(0, 300), 3));
-            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(550, 500), new Vector2(650, 0), 3));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(50, 330), new Vector2(440, 0), 4));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(600, 500), new Vector2(0, -260), 4));
+            movingBlocksList.Add(new MovingBlock(game, 4, new Vector2(1000, 200), new Vector2(0, 300), 5));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(550, 500), new Vector2(650, 0), 5));
 
             //test//
 
             // movingBlocksList.Add(new MovingBlock(game, 4, new Vector2(1500, 100), new Vector2(0, 0), 3));
 
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(1420, 150), new Vector2(0, 150), 4));
-            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(1000, 350), new Vector2(300, 0), 4));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(80, 100), new Vector2(0, 350), 5));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(1420, 150), new Vector2(0, 150), 6));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(1000, 350), new Vector2(300, 0), 6));
+            //movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(80, 100), new Vector2(0, 350), 7));
             // movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(1350, 70), new Vector2(-300, 0), 4));
-            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(1500, 150), new Vector2(0, 0), 2));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(1650, 100), new Vector2(0, 400), 3));
+            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(1500, 150), new Vector2(0, 0), 4));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(1650, 100), new Vector2(0, 400), 5));
 
-            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(1690, 250), new Vector2(200, 0), 3));
-            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(2020, 200), new Vector2(0, 0), 4));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(1690, 250), new Vector2(200, 0), 5));
+            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(2020, 200), new Vector2(0, 0), 6));
 
 
 
-            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(1660, 450), new Vector2(300, 0), 4));
-            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(2050, 500), new Vector2(0, 0), 4));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(2200, 450), new Vector2(0, -150), 3));
-            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(2270, 400), new Vector2(400, 0), 4));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(2750, 0), new Vector2(0, 450), 3));
-            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(2710, 200), new Vector2(420, 0), 3));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(3300, 200), new Vector2(0, 0), 3));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(3300, 300), new Vector2(0, 0), 3));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(3300, 400), new Vector2(0, 0), 3));
-            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(3350, 450), new Vector2(400, 0), 3));
-            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(4150, 450), new Vector2(-400, 0), 3));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(4250, 400), new Vector2(0, 0), 3));
-            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(4320, 350), new Vector2(0, -200), 3));
-            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(4400, 350), new Vector2(0, 0), 1));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(1660, 450), new Vector2(300, 0), 6));
+            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(2050, 500), new Vector2(0, 0), 6));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(2200, 450), new Vector2(0, -150), 5));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(2270, 400), new Vector2(400, 0), 6));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(2750, 0), new Vector2(0, 450), 5));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(2710, 200), new Vector2(420, 0), 5));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(3300, 200), new Vector2(0, 0), 5));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(3300, 300), new Vector2(0, 0), 5));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(3300, 400), new Vector2(0, 0), 5));
+            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(3350, 450), new Vector2(400, 0), 5));
+            movingBlocksList.Add(new MovingBlock(game, 2, new Vector2(4150, 450), new Vector2(-400, 0), 5));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(4250, 400), new Vector2(0, 0), 5));
+            movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(4320, 350), new Vector2(0, -200), 5));
+            movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(4400, 350), new Vector2(0, 0), 3));
 
 
             movingBlocksList.Add(new MovingBlock(game, 1, new Vector2(4650, 400), new Vector2(-200, 0), 5));
@@ -990,10 +990,10 @@ namespace Game1
             //------------------------- Lava -------------------------//
             lavaList.Add(new Lava(game, new Vector2(100, 0)));
             lavaList.Add(new Lava(game, new Vector2(700, 0)));
-            lavaList.Add(new Lava(game, new Vector2(1400, 0)));
-            lavaList.Add(new Lava(game, new Vector2(2100, 0)));
+            lavaList.Add(new Lava(game, new Vector2(1200, 0)));
+            lavaList.Add(new Lava(game, new Vector2(2000, -200)));
             lavaList.Add(new Lava(game, new Vector2(2800, 0)));
-            lavaList.Add(new Lava(game, new Vector2(3500, 0)));
+            lavaList.Add(new Lava(game, new Vector2(3500, -150)));
             lavaList.Add(new Lava(game, new Vector2(4200, 0)));
             lavaList.Add(new Lava(game, new Vector2(4900, 0)));
             #endregion
