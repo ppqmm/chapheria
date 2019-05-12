@@ -133,9 +133,7 @@ namespace Game1
                     break;
                 case 4:
 
-                    charRectangle = new Rectangle(
-                        (int)position.X + (int)((size.X - 2) / 2),
-                        (int)position.Y + (int)(size.Y) - 10,2,2);
+                    charRectangle = new Rectangle((int)position.X + (int)((size.X - 1) / 1),(int)position.Y + (int)(size.Y) - 5,1,1);
 
                     var isOnBlock = false;
 

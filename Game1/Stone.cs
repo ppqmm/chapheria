@@ -69,7 +69,7 @@ namespace Game1
             for (int i = 0; i < game.currentStage.grassList.Count; i++)
             {
                 //---------------------- collision -----------------------//
-                Rectangle stoneRectangle = new Rectangle((int)position.X, (int)position.Y, 50, 50);
+                Rectangle stoneRectangle = new Rectangle((int)position.X, (int)position.Y, 50, 40);
                 Rectangle glassBlockRectangle = new Rectangle((int)game.currentStage.grassList[i].X, (int)game.currentStage.grassList[i].Y, 26, 15);
 
                 if (stoneRectangle.Intersects(glassBlockRectangle))

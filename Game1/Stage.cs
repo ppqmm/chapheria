@@ -991,7 +991,7 @@ namespace Game1
             movingBlocksList.Add(new MovingBlock(game, 3, new Vector2(0, 300), new Vector2(0, 0), 1));
 
             //------------------------- Lava -------------------------//
-<<<<<<< HEAD
+
             //lavaList.Add(new Lava(game, new Vector2(100, 0)));
             //lavaList.Add(new Lava(game, new Vector2(700, 0)));
             //lavaList.Add(new Lava(game, new Vector2(1400, 0)));
@@ -1000,7 +1000,7 @@ namespace Game1
             //lavaList.Add(new Lava(game, new Vector2(3500, 0)));
             //lavaList.Add(new Lava(game, new Vector2(4200, 0)));
             //lavaList.Add(new Lava(game, new Vector2(4900, 0)));
-=======
+
             lavaList.Add(new Lava(game, new Vector2(100, 0)));
             lavaList.Add(new Lava(game, new Vector2(700, 0)));
             lavaList.Add(new Lava(game, new Vector2(1200, 0)));
@@ -1009,7 +1009,7 @@ namespace Game1
             lavaList.Add(new Lava(game, new Vector2(3500, -150)));
             lavaList.Add(new Lava(game, new Vector2(4200, 0)));
             lavaList.Add(new Lava(game, new Vector2(4900, 0)));
->>>>>>> b73521b51efd37483e2b8f78693ab36960345f67
+
             #endregion
         }
         void setupStage5()
