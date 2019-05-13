@@ -603,7 +603,7 @@ namespace Game1
             switch (sceneNumber)
             {
                 case 0:
-                    newStage(1);
+                    newStage(7);
                     break;
                 case 1:
                     gamestate = State.menu;
