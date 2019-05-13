@@ -300,6 +300,7 @@ namespace Game1
                 spriteBatch.Draw(Game1.charTexture, position, new Rectangle(frame * (int)size.X, (int)direction, (int)size.X, (int)size.Y), Color.White);
             }
 
+            spriteBatch.Draw(Game1.blx, new Rectangle((int)position.X,(int)position.Y, (int)size.X, (int)size.Y), Color.Red);
 
             Rectangle
                     charRectangle = new Rectangle(
